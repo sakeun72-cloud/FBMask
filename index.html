@@ -54,7 +54,8 @@
       <div class="field">
         <label>Layout-Stil / Design</label>
         <select id="bgStyle">
-          <option value="warmStudio">Warmes Studio (Beige / Gold)</option>
+          <option value="pureWhite" selected>Reines Weiß (100% Einheitsweiß)</option>
+          <option value="warmStudio">Warmes Studio (Beige / Soft)</option>
           <option value="freshGreen">Frisches Natur-Grün</option>
           <option value="royalBlue">Elegantes Premium Blau</option>
           <option value="modernClean">Modernes Slate / Dunkel</option>
@@ -301,6 +302,13 @@
 
     function drawBackground() {
       const style = inputs.bgStyle.value;
+
+      if (style === 'pureWhite') {
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, 1080, 1080);
+        return;
+      }
+
       let grad;
       if (style === 'warmStudio') {
         grad = ctx.createRadialGradient(800, 300, 50, 540, 540, 800);
@@ -419,7 +427,7 @@
         ctx.save();
         ctx.beginPath();
         ctx.ellipse(x + w / 2, y + h - 15, w * 0.38, 22 * scale, 0, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.22)';
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
         ctx.filter = 'blur(12px)';
         ctx.fill();
         ctx.restore();
@@ -459,7 +467,7 @@
           ctx.scale(finalScale, finalScale);
           ctx.rotate(rotationAngle);
 
-          ctx.shadowColor = 'rgba(0,0,0,0.35)';
+          ctx.shadowColor = 'rgba(0,0,0,0.25)';
           ctx.shadowBlur = 18; ctx.shadowOffsetY = 8;
 
           ctx.fillStyle = inputs.promoColor.value;
@@ -515,7 +523,7 @@
           ctx.save();
           ctx.translate(currentX, targetY);
 
-          ctx.shadowColor = 'rgba(0, 0, 0, 0.2)';
+          ctx.shadowColor = 'rgba(0, 0, 0, 0.15)';
           ctx.shadowBlur = 12; ctx.shadowOffsetY = 5;
 
           ctx.fillStyle = inputs.statusColor.value;
@@ -616,7 +624,7 @@
             ctx.beginPath(); ctx.roundRect(currentX, startY, 420, 72, 12); ctx.fill();
 
             ctx.shadowColor = 'transparent';
-            ctx.strokeStyle = isBestValue ? '#0284c7' : '#e2e8f0';
+            ctx.strokeStyle = isBestValue ? '#0284c7' : '#cbd5e1';
             ctx.lineWidth = isBestValue ? 2.5 : 1;
             ctx.stroke();
 
@@ -635,7 +643,6 @@
             ctx.font = '500 14px sans-serif'; ctx.fillStyle = '#64748b';
             ctx.fillText(row.perKgStr, currentX + 115, startY + 54);
 
-            // Dynamischer Badge-Text auf der 1. Preiszeile
             const badgeText = inputs.p1BadgeText.value.trim();
             if (isBestValue && badgeText !== "") {
               ctx.font = 'bold 11px sans-serif';
@@ -681,7 +688,6 @@
           ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
           ctx.fillText(inputs.delivText.value, 18, -4);
 
-          // Variable Untertitel-Zeile
           if (inputs.delivSubText.value.trim() !== "") {
             ctx.font = '500 12px sans-serif'; ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
             ctx.fillText(inputs.delivSubText.value, 18, 15);
