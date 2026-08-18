@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Animierter Produkt- & Banner Generator</title>
+  <title>Animierter Produkt- & Banner Generator (HD)</title>
   <style>
     * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
     body { max-width: 1380px; margin: 1.5rem auto; padding: 0 1rem; background: #0f172a; color: #f8fafc; }
@@ -27,7 +27,7 @@
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
     .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem; }
     
-    canvas { max-width: 100%; height: auto; border-radius: 10px; box-shadow: 0 20px 30px -10px rgba(0,0,0,0.6); }
+    canvas { width: 100%; max-width: 540px; height: auto; border-radius: 10px; box-shadow: 0 20px 30px -10px rgba(0,0,0,0.6); }
     
     .btn-group { display: flex; gap: 0.5rem; margin-top: 1.25rem; }
     .btn { flex: 1; padding: 0.85rem; background: #0284c7; color: #ffffff; border: none; border-radius: 6px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
@@ -41,8 +41,8 @@
 </head>
 <body>
 
-  <h1>Social Media Produkt- & Banner Generator</h1>
-  <p class="subtitle">Mit Reinzieh-Animationen, XXL-Promo-Badge & Motorrad-Lieferung</p>
+  <h1>Social Media Produkt- & Banner Generator (HD)</h1>
+  <p class="subtitle">Mit 2K Super-HD Export für gestochen scharfe Facebook-Videos</p>
 
   <div class="app-layout">
     
@@ -72,16 +72,16 @@
         </div>
         <div class="field">
           <label>Pos X</label>
-          <input type="range" id="fgX" min="0" max="1080" value="520">
+          <input type="range" id="fgX" min="0" max="2160" value="1040">
         </div>
         <div class="field">
           <label>Pos Y</label>
-          <input type="range" id="fgY" min="0" max="1080" value="180">
+          <input type="range" id="fgY" min="0" max="2160" value="360">
         </div>
       </div>
 
       <!-- 2. XXL PROMO BADGE -->
-      <div class="section-head">2. XXL Promo-Badge (Drehen & Hüpfen)</div>
+      <div class="section-head">2. XXL Promo-Badge</div>
       <div class="field">
         <label>Promo-Aktion</label>
         <select id="promoBadgeType">
@@ -104,18 +104,18 @@
         </div>
         <div class="field">
           <label>Pos X</label>
-          <input type="number" id="promoX" value="620">
+          <input type="number" id="promoX" value="1240">
         </div>
         <div class="field">
           <label>Pos Y</label>
-          <input type="number" id="promoY" value="170">
+          <input type="number" id="promoY" value="340">
         </div>
       </div>
 
       <!-- 3. VERFÜGBARKEITS-BADGE -->
-      <div class="section-head">3. Verfügbarkeits-Status (Reingezogen)</div>
+      <div class="section-head">3. Verfügbarkeits-Status</div>
       <div class="field">
-        <label>Status auswählen (Nur 1 wählbar)</label>
+        <label>Status auswählen</label>
         <select id="statusBadge">
           <option value="Available po">AVAILABLE PO</option>
           <option value="Bukas ulit deliver">BUKAS ULIT DELIVER</option>
@@ -134,7 +134,7 @@
         </div>
         <div class="field">
           <label>Ziel Pos Y</label>
-          <input type="number" id="statusY" value="70">
+          <input type="number" id="statusY" value="140">
         </div>
       </div>
 
@@ -147,7 +147,7 @@
       <div class="grid-2">
         <div class="field">
           <label>Größe (px)</label>
-          <input type="number" id="headSize" value="48">
+          <input type="number" id="headSize" value="96">
         </div>
         <div class="field">
           <label>Farbe</label>
@@ -157,22 +157,22 @@
       <div class="grid-2">
         <div class="field">
           <label>Ziel Pos X</label>
-          <input type="number" id="headX" value="80">
+          <input type="number" id="headX" value="160">
         </div>
         <div class="field">
           <label>Ziel Pos Y</label>
-          <input type="number" id="headY" value="160">
+          <input type="number" id="headY" value="320">
         </div>
       </div>
 
       <div class="field">
         <label>Stichpunkte (1 pro Zeile)</label>
-        <textarea id="propText">✓ Maputi (Weißes Premium-Korn)&#10;✓ Malambot (Weich gekocht)&#10;✓ Lagkitan (Leicht klebrige Textur)&#10;✓ Mabango (Angenehm aromatisch)&#10;✓ Hindi agad tumatigas (Bleibt weich)</textarea>
+        <textarea id="propText">✓ Maputi (White / Premium white grain)&#10;✓ Malambot (Soft when cooked)&#10;✓ ILagkitan (Slightly sticky / Cohesive texture)&#10;✓ Mabango (Aromatic / Pleasant aroma)&#10;✓ Hindi agad tumatigas (Stays soft even when cooled)</textarea>
       </div>
       <div class="grid-2">
         <div class="field">
           <label>Größe (px)</label>
-          <input type="number" id="propSize" value="20">
+          <input type="number" id="propSize" value="40">
         </div>
         <div class="field">
           <label>Farbe</label>
@@ -181,7 +181,7 @@
       </div>
 
       <!-- 5. PREISTABELLE -->
-      <div class="section-head">5. Preistabelle (3 Gebinde)</div>
+      <div class="section-head">5. Preistabelle</div>
       <div class="grid-2">
         <div class="field"><label>Gebinde 1 (kg)</label><input type="number" id="p1Kg" value="25"></div>
         <div class="field"><label>Preis 1 (PHP)</label><input type="number" id="p1Php" value="3500"></div>
@@ -199,11 +199,11 @@
         <div class="field"><label>Preis 3 (PHP)</label><input type="number" id="p3Php" value="800"></div>
       </div>
       <div class="grid-2">
-        <div class="field"><label>Pos X</label><input type="number" id="priceX" value="80"></div>
-        <div class="field"><label>Pos Y</label><input type="number" id="priceY" value="480"></div>
+        <div class="field"><label>Pos X</label><input type="number" id="priceX" value="160"></div>
+        <div class="field"><label>Pos Y</label><input type="number" id="priceY" value="960"></div>
       </div>
 
-      <!-- 6. MOTORRAD LIEFER-ANIMATION & BLÖCKE -->
+      <!-- 6. MOTORRAD & BLÖCKE -->
       <div class="section-head">6. Motorrad & Liefer-Blöcke</div>
       <div class="grid-2">
         <div class="field">
@@ -218,7 +218,7 @@
       <div class="grid-2">
         <div class="field">
           <label>Unterer Text-Größe (px)</label>
-          <input type="number" id="delivSubSize" value="18">
+          <input type="number" id="delivSubSize" value="36">
         </div>
         <div class="field">
           <label>Liefer-Farbe</label>
@@ -227,20 +227,20 @@
       </div>
       <div class="field">
         <label>Motorrad Pos Y</label>
-        <input type="number" id="delivY" value="820">
+        <input type="number" id="delivY" value="1640">
       </div>
 
       <!-- ACTION BUTTONS -->
       <div class="btn-group">
         <button class="btn btn-anim" id="playBtn">▶ Animation abspielen</button>
-        <button class="btn" id="recordBtn">🎬 Video Exportieren</button>
+        <button class="btn" id="recordBtn">🎬 HD-Video Exportieren</button>
       </div>
       <div id="status"></div>
     </div>
 
-    <!-- CANVAS VORSCHAU -->
+    <!-- CANVAS VORSCHAU (Interne Auflösung 2160x2160 für perfekte Schärfe) -->
     <div class="preview">
-      <canvas id="mainCanvas" width="1080" height="1080"></canvas>
+      <canvas id="mainCanvas" width="2160" height="2160"></canvas>
     </div>
 
   </div>
@@ -309,30 +309,30 @@
 
       if (style === 'pureWhite') {
         ctx.fillStyle = '#ffffff';
-        ctx.fillRect(0, 0, 1080, 1080);
+        ctx.fillRect(0, 0, 2160, 2160);
         return;
       }
 
       let grad;
       if (style === 'warmStudio') {
-        grad = ctx.createRadialGradient(800, 300, 50, 540, 540, 800);
+        grad = ctx.createRadialGradient(1600, 600, 100, 1080, 1080, 1600);
         grad.addColorStop(0, '#ffffff'); grad.addColorStop(0.4, '#f5efe6'); grad.addColorStop(1, '#e6dcce');
       } else if (style === 'freshGreen') {
-        grad = ctx.createRadialGradient(800, 400, 100, 540, 540, 850);
+        grad = ctx.createRadialGradient(1600, 800, 200, 1080, 1080, 1700);
         grad.addColorStop(0, '#f0fdf4'); grad.addColorStop(0.6, '#dcfce7'); grad.addColorStop(1, '#bbf7d0');
       } else if (style === 'royalBlue') {
-        grad = ctx.createLinearGradient(0, 0, 1080, 1080);
+        grad = ctx.createLinearGradient(0, 0, 2160, 2160);
         grad.addColorStop(0, '#f0f9ff'); grad.addColorStop(1, '#bae6fd');
       } else {
-        grad = ctx.createLinearGradient(0, 0, 1080, 1080);
+        grad = ctx.createLinearGradient(0, 0, 2160, 2160);
         grad.addColorStop(0, '#1e293b'); grad.addColorStop(1, '#0f172a');
       }
       ctx.fillStyle = grad;
-      ctx.fillRect(0, 0, 1080, 1080);
+      ctx.fillRect(0, 0, 2160, 2160);
 
       ctx.fillStyle = style === 'modernClean' ? 'rgba(30, 41, 59, 0.85)' : 'rgba(255, 255, 255, 0.75)';
       ctx.beginPath();
-      ctx.roundRect(50, 50, 480, 980, 24);
+      ctx.roundRect(100, 100, 960, 1960, 48);
       ctx.fill();
     }
 
@@ -377,45 +377,45 @@
       ctx.scale(scale, scale);
 
       const isMoving = moveProgress < 1.0;
-      const bounce = isMoving ? Math.sin(moveProgress * Math.PI * 30) * 1.5 : 0;
+      const bounce = isMoving ? Math.sin(moveProgress * Math.PI * 30) * 3 : 0;
       ctx.translate(0, bounce);
 
       const wheelRot = (x / 12) % (Math.PI * 2);
 
       ctx.fillStyle = 'rgba(15, 23, 42, 0.22)';
       ctx.beginPath();
-      ctx.ellipse(0, 4, 48, 8, 0, 0, Math.PI * 2);
+      ctx.ellipse(0, 8, 96, 16, 0, 0, Math.PI * 2);
       ctx.fill();
 
       function drawWheel(wx, wy) {
         ctx.save();
         ctx.translate(wx, wy);
-        ctx.fillStyle = '#1e293b'; ctx.beginPath(); ctx.arc(0, 0, 14, 0, Math.PI * 2); ctx.fill();
-        ctx.fillStyle = '#cbd5e1'; ctx.beginPath(); ctx.arc(0, 0, 8, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#1e293b'; ctx.beginPath(); ctx.arc(0, 0, 28, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#cbd5e1'; ctx.beginPath(); ctx.arc(0, 0, 16, 0, Math.PI * 2); ctx.fill();
         ctx.rotate(wheelRot);
-        ctx.strokeStyle = '#334155'; ctx.lineWidth = 2;
-        ctx.beginPath(); ctx.moveTo(-6, 0); ctx.lineTo(6, 0); ctx.stroke();
+        ctx.strokeStyle = '#334155'; ctx.lineWidth = 4;
+        ctx.beginPath(); ctx.moveTo(-12, 0); ctx.lineTo(12, 0); ctx.stroke();
         ctx.restore();
       }
 
-      drawWheel(-28, -10);
-      drawWheel(26, -10);
+      drawWheel(-56, -20);
+      drawWheel(52, -20);
 
-      ctx.fillStyle = '#0284c7'; ctx.beginPath(); ctx.roundRect(-22, -20, 46, 10, 4); ctx.fill();
-      ctx.fillStyle = '#0369a1'; ctx.beginPath(); ctx.moveTo(14, -18); ctx.lineTo(28, -38); ctx.lineTo(20, -42); ctx.lineTo(8, -20); ctx.closePath(); ctx.fill();
-      ctx.fillStyle = '#fef08a'; ctx.beginPath(); ctx.arc(27, -37, 4, 0, Math.PI * 2); ctx.fill();
-      ctx.fillStyle = '#dc2626'; ctx.beginPath(); ctx.roundRect(-38, -46, 24, 24, 5); ctx.fill();
-      ctx.fillStyle = '#ffffff'; ctx.beginPath(); ctx.roundRect(-35, -36, 18, 5, 2); ctx.fill();
+      ctx.fillStyle = '#0284c7'; ctx.beginPath(); ctx.roundRect(-44, -40, 92, 20, 8); ctx.fill();
+      ctx.fillStyle = '#0369a1'; ctx.beginPath(); ctx.moveTo(28, -36); ctx.lineTo(56, -76); ctx.lineTo(40, -84); ctx.lineTo(16, -40); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = '#fef08a'; ctx.beginPath(); ctx.arc(54, -74, 8, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#dc2626'; ctx.beginPath(); ctx.roundRect(-76, -92, 48, 48, 10); ctx.fill();
+      ctx.fillStyle = '#ffffff'; ctx.beginPath(); ctx.roundRect(-70, -72, 36, 10, 4); ctx.fill();
 
-      ctx.fillStyle = '#1e293b'; ctx.beginPath(); ctx.roundRect(-8, -42, 14, 18, 4); ctx.fill();
-      ctx.fillStyle = '#0284c7'; ctx.beginPath(); ctx.arc(0, -50, 9, 0, Math.PI * 2); ctx.fill();
-      ctx.fillStyle = '#f8fafc'; ctx.beginPath(); ctx.arc(3, -50, 4, -Math.PI/2, Math.PI/2); ctx.fill();
+      ctx.fillStyle = '#1e293b'; ctx.beginPath(); ctx.roundRect(-16, -84, 28, 36, 8); ctx.fill();
+      ctx.fillStyle = '#0284c7'; ctx.beginPath(); ctx.arc(0, -100, 18, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#f8fafc'; ctx.beginPath(); ctx.arc(6, -100, 8, -Math.PI/2, Math.PI/2); ctx.fill();
 
       ctx.restore();
     }
 
     function renderAtProgress(progress) {
-      ctx.clearRect(0, 0, 1080, 1080);
+      ctx.clearRect(0, 0, 2160, 2160);
       drawBackground();
 
       const isDarkBg = inputs.bgStyle.value === 'modernClean';
@@ -430,16 +430,16 @@
 
         ctx.save();
         ctx.beginPath();
-        ctx.ellipse(x + w / 2, y + h - 15, w * 0.38, 22 * scale, 0, 0, Math.PI * 2);
+        ctx.ellipse(x + w / 2, y + h - 30, w * 0.38, 44 * scale, 0, 0, Math.PI * 2);
         ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
-        ctx.filter = 'blur(12px)';
+        ctx.filter = 'blur(24px)';
         ctx.fill();
         ctx.restore();
 
         ctx.drawImage(fgImg, x, y, w, h);
       }
 
-      // 2. XXL DREHENDES & HÜPFENDES PROMO BADGE
+      // 2. XXL PROMO BADGE
       const promoText = inputs.promoBadgeType.value === 'Custom' 
         ? inputs.customPromoText.value 
         : inputs.promoBadgeType.value;
@@ -460,7 +460,7 @@
 
           if (promoProg >= 1.0) {
             const postTime = progress - (promoStart + promoDuration);
-            bounceY = -Math.abs(Math.sin(postTime * Math.PI * 12)) * 18;
+            bounceY = -Math.abs(Math.sin(postTime * Math.PI * 12)) * 36;
             pulseScale = 1 + Math.sin(postTime * Math.PI * 14) * 0.07;
           }
 
@@ -472,42 +472,42 @@
           ctx.rotate(rotationAngle);
 
           ctx.shadowColor = 'rgba(0,0,0,0.25)';
-          ctx.shadowBlur = 18; ctx.shadowOffsetY = 8;
+          ctx.shadowBlur = 36; ctx.shadowOffsetY = 16;
 
           ctx.fillStyle = inputs.promoColor.value;
-          drawStarburst(0, 0, 16, 85, 70);
+          drawStarburst(0, 0, 16, 170, 140);
 
           ctx.shadowColor = 'transparent';
 
           ctx.fillStyle = '#ffffff';
           ctx.beginPath();
-          ctx.arc(0, 0, 58, 0, Math.PI * 2);
+          ctx.arc(0, 0, 116, 0, Math.PI * 2);
           ctx.fill();
 
           ctx.strokeStyle = inputs.promoColor.value;
-          ctx.lineWidth = 4;
+          ctx.lineWidth = 8;
           ctx.beginPath();
-          ctx.arc(0, 0, 53, 0, Math.PI * 2);
+          ctx.arc(0, 0, 106, 0, Math.PI * 2);
           ctx.stroke();
 
-          ctx.font = '900 15px sans-serif';
+          ctx.font = '900 30px sans-serif';
           ctx.fillStyle = '#0f172a';
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
           
           const words = promoText.split(' ');
           if (words.length > 1) {
-            ctx.fillText(words[0], 0, -9);
-            ctx.fillText(words.slice(1).join(' '), 0, 11);
+            ctx.fillText(words[0], 0, -18);
+            ctx.fillText(words.slice(1).join(' '), 0, 22);
           } else {
-            ctx.fillText(promoText, 0, 1);
+            ctx.fillText(promoText, 0, 2);
           }
 
           ctx.restore();
         }
       }
 
-      // 3. REINGEZOOGENER STATUS-BADGE
+      // 3. STATUS-BADGE
       const statusValue = inputs.statusBadge.value === 'Custom' 
         ? inputs.customStatusText.value 
         : inputs.statusBadge.value;
@@ -519,8 +519,8 @@
 
         if (statusProg > 0) {
           const easedElastic = easeOutElastic(statusProg);
-          const startX = 1180;
-          const targetX = 80;
+          const startX = 2360;
+          const targetX = 160;
           const currentX = startX - (startX - targetX) * easedElastic;
           const targetY = parseInt(inputs.statusY.value);
 
@@ -528,31 +528,31 @@
           ctx.translate(currentX, targetY);
 
           ctx.shadowColor = 'rgba(0, 0, 0, 0.15)';
-          ctx.shadowBlur = 12; ctx.shadowOffsetY = 5;
+          ctx.shadowBlur = 24; ctx.shadowOffsetY = 10;
 
           ctx.fillStyle = inputs.statusColor.value;
           ctx.beginPath();
-          ctx.roundRect(0, 0, 260, 48, 24);
+          ctx.roundRect(0, 0, 520, 96, 48);
           ctx.fill();
 
           ctx.shadowColor = 'transparent';
 
           ctx.fillStyle = '#ffffff';
           ctx.beginPath();
-          ctx.arc(28, 24, 16, 0, Math.PI * 2);
+          ctx.arc(56, 48, 32, 0, Math.PI * 2);
           ctx.fill();
 
           ctx.strokeStyle = inputs.statusColor.value;
-          ctx.lineWidth = 3.5;
+          ctx.lineWidth = 7;
           ctx.beginPath();
-          ctx.moveTo(20, 24); ctx.lineTo(26, 30); ctx.lineTo(36, 18);
+          ctx.moveTo(40, 48); ctx.lineTo(52, 60); ctx.lineTo(72, 36);
           ctx.stroke();
 
-          ctx.font = 'bold 16px sans-serif';
+          ctx.font = 'bold 32px sans-serif';
           ctx.fillStyle = '#ffffff';
           ctx.textAlign = 'left';
           ctx.textBaseline = 'middle';
-          ctx.fillText(statusValue.toUpperCase(), 54, 25);
+          ctx.fillText(statusValue.toUpperCase(), 108, 50);
 
           ctx.restore();
         }
@@ -570,7 +570,7 @@
         ctx.globalAlpha = eased;
         ctx.font = `bold ${inputs.headSize.value}px sans-serif`;
         ctx.fillStyle = isDarkBg ? '#f8fafc' : inputs.headColor.value;
-        ctx.fillText(hText, targetX, targetY - (1 - eased) * 70);
+        ctx.fillText(hText, targetX, targetY - (1 - eased) * 140);
         ctx.restore();
       }
 
@@ -580,7 +580,7 @@
         const lines = pText.split('\n').filter(l => l.trim() !== "");
         const fontSize = parseInt(inputs.propSize.value);
         const targetX = parseInt(inputs.headX.value);
-        let startY = parseInt(inputs.headY.value) + 45;
+        let startY = parseInt(inputs.headY.value) + 90;
 
         ctx.font = `500 ${fontSize}px sans-serif`;
         ctx.fillStyle = isDarkBg ? '#cbd5e1' : inputs.propColor.value;
@@ -592,7 +592,7 @@
             const eased = easeOutCubic(lineProgress);
             ctx.save();
             ctx.globalAlpha = eased;
-            ctx.fillText(line.trim(), targetX - (1 - eased) * 100, startY);
+            ctx.fillText(line.trim(), targetX - (1 - eased) * 200, startY);
             ctx.restore();
           }
           startY += fontSize * 1.4;
@@ -616,120 +616,117 @@
 
           if (rowProgress > 0) {
             const eased = easeOutCubic(rowProgress);
-            const currentX = startX - (1 - eased) * 140;
+            const currentX = startX - (1 - eased) * 280;
             const isBestValue = index === 0;
 
             ctx.save();
             ctx.globalAlpha = eased;
 
             ctx.shadowColor = 'rgba(15, 23, 42, 0.08)';
-            ctx.shadowBlur = 12; ctx.shadowOffsetY = 4;
+            ctx.shadowBlur = 24; ctx.shadowOffsetY = 8;
             ctx.fillStyle = '#ffffff';
-            ctx.beginPath(); ctx.roundRect(currentX, startY, 420, 72, 12); ctx.fill();
+            ctx.beginPath(); ctx.roundRect(currentX, startY, 840, 144, 24); ctx.fill();
 
             ctx.shadowColor = 'transparent';
             ctx.strokeStyle = isBestValue ? '#0284c7' : '#cbd5e1';
-            ctx.lineWidth = isBestValue ? 2.5 : 1;
+            ctx.lineWidth = isBestValue ? 5 : 2;
             ctx.stroke();
 
             ctx.fillStyle = isBestValue ? '#0284c7' : '#f1f5f9';
-            ctx.beginPath(); ctx.roundRect(currentX + 13, startY + 13, 85, 46, 8); ctx.fill();
+            ctx.beginPath(); ctx.roundRect(currentX + 26, startY + 26, 170, 92, 16); ctx.fill();
 
-            ctx.font = 'bold 20px sans-serif';
+            ctx.font = 'bold 40px sans-serif';
             ctx.fillStyle = isBestValue ? '#ffffff' : '#0f172a';
             ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-            ctx.fillText(row.kgStr, currentX + 55, startY + 36);
+            ctx.fillText(row.kgStr, currentX + 111, startY + 72);
 
             ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
-            ctx.font = 'bold 22px sans-serif'; ctx.fillStyle = '#0f172a';
-            ctx.fillText(row.formattedPhp, currentX + 115, startY + 33);
+            ctx.font = 'bold 44px sans-serif'; ctx.fillStyle = '#0f172a';
+            ctx.fillText(row.formattedPhp, currentX + 230, startY + 66);
 
-            ctx.font = '500 14px sans-serif'; ctx.fillStyle = '#64748b';
-            ctx.fillText(row.perKgStr, currentX + 115, startY + 54);
+            ctx.font = '500 28px sans-serif'; ctx.fillStyle = '#64748b';
+            ctx.fillText(row.perKgStr, currentX + 230, startY + 108);
 
             const badgeText = inputs.p1BadgeText.value.trim();
             if (isBestValue && badgeText !== "") {
-              ctx.font = 'bold 11px sans-serif';
+              ctx.font = 'bold 22px sans-serif';
               const textWidth = ctx.measureText(badgeText).width;
-              const badgeWidth = Math.max(85, textWidth + 18);
-              const badgeX = currentX + 408 - badgeWidth;
+              const badgeWidth = Math.max(170, textWidth + 36);
+              const badgeX = currentX + 816 - badgeWidth;
 
               ctx.fillStyle = '#dcfce7';
-              ctx.beginPath(); ctx.roundRect(badgeX, startY + 25, badgeWidth, 22, 6); ctx.fill();
+              ctx.beginPath(); ctx.roundRect(badgeX, startY + 50, badgeWidth, 44, 12); ctx.fill();
               ctx.fillStyle = '#166534';
               ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-              ctx.fillText(badgeText, badgeX + (badgeWidth / 2), startY + 36);
+              ctx.fillText(badgeText, badgeX + (badgeWidth / 2), startY + 72);
             }
             ctx.restore();
           }
-          startY += 84;
+          startY += 168;
         });
       }
 
-      // 7. MOTORRAD & SEPARATER FREE DELIVERY KASTEN + UNTERTITEL
+      // 7. MOTORRAD & LIEFER-BLÖCKE
       const delivStart = 0.62;
       if (progress >= delivStart) {
         const moveProgress = Math.min(1, (progress - delivStart) / 0.28);
         const targetY = parseInt(inputs.delivY.value);
-        const currentX = -100 + (135 - -100) * easeOutCubic(moveProgress);
+        const currentX = -200 + (270 - -200) * easeOutCubic(moveProgress);
 
-        // A) MOTORRAD LINKS ZEICHNEN
-        drawDeliveryScooter(currentX, targetY, 1.4, moveProgress);
+        drawDeliveryScooter(currentX, targetY, 2.8, moveProgress);
 
-        // B) FREE DELIVERY KASTEN RECHTS NEBEN DEM MOTORRAD
         if (moveProgress > 0.4) {
           const popProgress = Math.min(1, (moveProgress - 0.4) / 0.6);
           const easedPop = easeOutBack(popProgress);
 
           ctx.save();
-          ctx.translate(currentX + 85, targetY - 22);
+          ctx.translate(currentX + 170, targetY - 44);
           ctx.scale(Math.max(0, easedPop), Math.max(0, easedPop));
 
           ctx.shadowColor = 'rgba(22, 163, 74, 0.35)'; 
-          ctx.shadowBlur = 18; 
-          ctx.shadowOffsetY = 6;
+          ctx.shadowBlur = 36; 
+          ctx.shadowOffsetY = 12;
           
           ctx.fillStyle = inputs.delivColor.value;
           ctx.beginPath(); 
-          ctx.roundRect(0, -32, 240, 58, 14); 
+          ctx.roundRect(0, -64, 480, 116, 28); 
           ctx.fill();
 
           ctx.shadowColor = 'transparent';
-          ctx.font = 'bold 21px sans-serif'; 
+          ctx.font = 'bold 42px sans-serif'; 
           ctx.fillStyle = '#ffffff';
           ctx.textAlign = 'center'; 
           ctx.textBaseline = 'middle';
-          ctx.fillText(inputs.delivText.value, 120, -3);
+          ctx.fillText(inputs.delivText.value, 240, -6);
 
           ctx.restore();
         }
 
-        // C) UNTERER STRAN / BLOCK UNTER DEM GESAMTEN ELEMENT
         if (moveProgress > 0.6 && inputs.delivSubText.value.trim() !== "") {
           const subPopProgress = Math.min(1, (moveProgress - 0.6) / 0.4);
           const easedSubPop = easeOutCubic(subPopProgress);
 
-          const totalWidth = 330;
-          const subY = targetY + 28;
-          const subHeight = 46;
-          const subFontSize = parseInt(inputs.delivSubSize.value) || 18;
+          const totalWidth = 660;
+          const subY = targetY + 56;
+          const subHeight = 92;
+          const subFontSize = parseInt(inputs.delivSubSize.value) || 36;
 
           ctx.save();
-          ctx.translate(currentX - 50, subY);
+          ctx.translate(currentX - 100, subY);
           ctx.scale(1, Math.max(0, easedSubPop));
 
           ctx.shadowColor = 'rgba(15, 23, 42, 0.12)'; 
-          ctx.shadowBlur = 12; 
-          ctx.shadowOffsetY = 4;
+          ctx.shadowBlur = 24; 
+          ctx.shadowOffsetY = 8;
 
           ctx.fillStyle = isDarkBg ? '#334155' : '#ffffff';
           ctx.beginPath(); 
-          ctx.roundRect(0, 0, totalWidth, subHeight, 10); 
+          ctx.roundRect(0, 0, totalWidth, subHeight, 20); 
           ctx.fill();
 
           ctx.shadowColor = 'transparent';
           ctx.strokeStyle = inputs.delivColor.value;
-          ctx.lineWidth = 2;
+          ctx.lineWidth = 4;
           ctx.stroke();
 
           ctx.font = `bold ${subFontSize}px sans-serif`; 
@@ -764,7 +761,7 @@
     }
 
     function recordVideo() {
-      statusEl.textContent = "⏺ Video wird aufgenommen...";
+      statusEl.textContent = "⏺ 2K HD-Video wird aufgenommen...";
       document.getElementById('recordBtn').disabled = true;
 
       const stream = canvas.captureStream(60);
@@ -772,7 +769,7 @@
       if (!MediaRecorder.isTypeSupported(mimeType)) mimeType = 'video/webm';
       if (!MediaRecorder.isTypeSupported(mimeType)) mimeType = 'video/mp4';
 
-      const mediaRecorder = new MediaRecorder(stream, { mimeType });
+      const mediaRecorder = new MediaRecorder(stream, { mimeType, videoBitsRate: 8000000 });
       const chunks = [];
 
       mediaRecorder.ondataavailable = e => chunks.push(e.data);
@@ -781,10 +778,10 @@
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `social-media-banner.${mimeType.includes('mp4') ? 'mp4' : 'webm'}`;
+        a.download = `fuji-rice-hd-banner.${mimeType.includes('mp4') ? 'mp4' : 'webm'}`;
         a.click();
         
-        statusEl.textContent = "✅ Video erfolgreich erstellt!";
+        statusEl.textContent = "✅ HD-Video erfolgreich erstellt!";
         document.getElementById('recordBtn').disabled = false;
       };
 
