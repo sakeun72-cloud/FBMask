@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Animiertes Produkt-Studio</title>
+  <title>Animierter Produkt-Banner Generator</title>
   <style>
     * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
     body { max-width: 1280px; margin: 1.5rem auto; padding: 0 1rem; background: #0f172a; color: #f8fafc; }
     h1 { text-align: center; font-size: 1.6rem; margin-bottom: 1.5rem; }
     
-    .app-layout { display: grid; grid-template-columns: 400px 1fr; gap: 1.5rem; align-items: start; }
+    .app-layout { display: grid; grid-template-columns: 420px 1fr; gap: 1.5rem; align-items: start; }
     @media (max-width: 900px) { .app-layout { grid-template-columns: 1fr; } }
     
     .controls { background: #1e293b; padding: 1.25rem; border-radius: 12px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3); max-height: 88vh; overflow-y: auto; }
@@ -21,7 +21,7 @@
     .field { margin-bottom: 0.75rem; }
     label { display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 0.25rem; color: #cbd5e1; }
     input[type="text"], textarea, input[type="file"], select, input[type="number"] { width: 100%; padding: 0.5rem; background: #0f172a; border: 1px solid #334155; border-radius: 6px; font-size: 0.85rem; color: #fff; }
-    textarea { resize: vertical; height: 65px; }
+    textarea { resize: vertical; height: 60px; }
     
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
     .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem; }
@@ -40,7 +40,7 @@
 </head>
 <body>
 
-  <h1>Animierter Produkt-Banner Generator</h1>
+  <h1>Animierter Produkt- & Preistabellen Generator</h1>
 
   <div class="app-layout">
     
@@ -58,7 +58,7 @@
         </select>
       </div>
       <div class="field">
-        <label>Eigenes Produkt (PNG mit Transparenz)</label>
+        <label>Produkt-Bild (PNG mit Transparenz)</label>
         <input type="file" id="fgInput" accept="image/png, image/webp">
       </div>
       <div class="grid-3">
@@ -84,7 +84,7 @@
       <div class="grid-2">
         <div class="field">
           <label>Größe (px)</label>
-          <input type="number" id="headSize" value="48">
+          <input type="number" id="headSize" value="44">
         </div>
         <div class="field">
           <label>Farbe</label>
@@ -98,19 +98,19 @@
         </div>
         <div class="field">
           <label>Ziel Pos Y</label>
-          <input type="number" id="headY" value="180">
+          <input type="number" id="headY" value="160">
         </div>
       </div>
 
-      <div class="section-head">3. Eigenschaften & Animation</div>
+      <div class="section-head">3. Eigenschaften</div>
       <div class="field">
         <label>Stichpunkte (1 pro Zeile)</label>
-        <textarea id="propText">✓ 100% Premium Qualität&#10;✓ Extra langer Duftreis&#10;✓ Ideal für asiatische Gerichte&#10;✓ Vorteilspackung 25kg</textarea>
+        <textarea id="propText">✓ 100% Premium Qualität&#10;✓ Extra langer Duftreis&#10;✓ Ideal für asiatische Gerichte</textarea>
       </div>
       <div class="grid-2">
         <div class="field">
           <label>Größe (px)</label>
-          <input type="number" id="propSize" value="28">
+          <input type="number" id="propSize" value="24">
         </div>
         <div class="field">
           <label>Farbe</label>
@@ -124,7 +124,66 @@
         </div>
         <div class="field">
           <label>Ziel Pos Y</label>
-          <input type="number" id="propY" value="280">
+          <input type="number" id="propY" value="250">
+        </div>
+      </div>
+
+      <div class="section-head">4. Preistabelle (3 Gebinde)</div>
+      
+      <!-- Gebinde 1 -->
+      <div class="grid-2">
+        <div class="field">
+          <label>Gebinde 1 (kg)</label>
+          <input type="number" id="p1Kg" value="25">
+        </div>
+        <div class="field">
+          <label>Preis 1 (PHP)</label>
+          <input type="number" id="p1Php" value="3500">
+        </div>
+      </div>
+
+      <!-- Gebinde 2 -->
+      <div class="grid-2">
+        <div class="field">
+          <label>Gebinde 2 (kg)</label>
+          <input type="number" id="p2Kg" value="10">
+        </div>
+        <div class="field">
+          <label>Preis 2 (PHP)</label>
+          <input type="number" id="p2Php" value="1500">
+        </div>
+      </div>
+
+      <!-- Gebinde 3 -->
+      <div class="grid-2">
+        <div class="field">
+          <label>Gebinde 3 (kg)</label>
+          <input type="number" id="p3Kg" value="5">
+        </div>
+        <div class="field">
+          <label>Preis 3 (PHP)</label>
+          <input type="number" id="p3Php" value="800">
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="field">
+          <label>Schriftgröße (px)</label>
+          <input type="number" id="priceSize" value="22">
+        </div>
+        <div class="field">
+          <label>Textfarbe</label>
+          <input type="color" id="priceColor" value="#0f172a">
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="field">
+          <label>Ziel Pos X</label>
+          <input type="number" id="priceX" value="80">
+        </div>
+        <div class="field">
+          <label>Ziel Pos Y</label>
+          <input type="number" id="priceY" value="440">
         </div>
       </div>
 
@@ -147,19 +206,19 @@
     const ctx = canvas.getContext('2d');
     const statusEl = document.getElementById('status');
 
-    let bgImg = null;
     let fgImg = null;
-
-    // Animations-Status
     let animationFrameId = null;
     let startTime = null;
-    const ANIMATION_DURATION = 2500; // 2.5 Sekunden Bewegung
-    const HOLD_DURATION = 1500;      // 1.5 Sekunden Standbild am Ende
+
+    const ANIMATION_DURATION = 3200; // 3.2 Sek. Gesamtanimationsdauer
+    const HOLD_DURATION = 1500;
 
     const inputs = [
       'bgStyle', 'fgInput', 'fgScale', 'fgX', 'fgY',
       'headText', 'headSize', 'headColor', 'headX', 'headY',
-      'propText', 'propSize', 'propColor', 'propX', 'propY'
+      'propText', 'propSize', 'propColor', 'propX', 'propY',
+      'p1Kg', 'p1Php', 'p2Kg', 'p2Php', 'p3Kg', 'p3Php',
+      'priceSize', 'priceColor', 'priceX', 'priceY'
     ].reduce((acc, id) => {
       acc[id] = document.getElementById(id);
       return acc;
@@ -178,12 +237,10 @@
       reader.readAsDataURL(file);
     });
 
-    // Ease-Out-Funktion für flüssiges Abbremsen
     function easeOutCubic(x) {
       return 1 - Math.pow(1 - x, 3);
     }
 
-    // Prozeduralen Hintergrund rendern
     function drawBackground() {
       const style = inputs.bgStyle.value;
       let grad;
@@ -203,19 +260,37 @@
       ctx.fillStyle = grad;
       ctx.fillRect(0, 0, 1080, 1080);
 
-      // Dekorative Weiße Karte
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.65)';
+      // Dekorative Weiche Karte
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.70)';
       ctx.beginPath();
-      ctx.roundRect(50, 80, 480, 920, 24);
+      ctx.roundRect(50, 60, 480, 960, 24);
       ctx.fill();
     }
 
-    // Render-Funktion mit Animations-Fortschritt (progress: 0.0 bis 1.0)
+    // Preiszeile Formatieren & Kilopreis berechnen
+    function formatPriceRow(kgVal, phpVal) {
+      const kg = parseFloat(kgVal);
+      const php = parseFloat(phpVal);
+
+      if (isNaN(kg) || isNaN(php) || kg <= 0) return null;
+
+      const perKg = (php / kg).toFixed(2).replace('.', ',');
+      const formattedPhp = php.toLocaleString('de-DE');
+
+      // Übersichtliche Formatierung mit Trennstrichen (Pipes)
+      return {
+        kgStr: `${kg} kg`,
+        priceStr: `${formattedPhp} PHP`,
+        perKgStr: `${perKg} PHP/kg`
+      };
+    }
+
+    // Haupt-Renderfunktion mit Fortschritt
     function renderAtProgress(progress) {
       ctx.clearRect(0, 0, 1080, 1080);
       drawBackground();
 
-      // 1. Produkt zeichnen mit Schatten
+      // 1. Produkt zeichnen
       if (fgImg) {
         const scale = parseFloat(inputs.fgScale.value);
         const x = parseInt(inputs.fgX.value);
@@ -223,7 +298,6 @@
         const w = fgImg.width * scale;
         const h = fgImg.height * scale;
 
-        // Schatten
         ctx.save();
         ctx.beginPath();
         ctx.ellipse(x + w / 2, y + h - 20, w * 0.35, 25 * scale, 0, 0, Math.PI * 2);
@@ -235,14 +309,14 @@
         ctx.drawImage(fgImg, x, y, w, h);
       }
 
-      // 2. Überschrift animieren (Reingleiten von oben)
+      // 2. Überschrift animieren
       const hText = inputs.headText.value;
       if (hText) {
-        const headProgress = Math.min(1, progress * 1.5); // Startet sofort
+        const headProgress = Math.min(1, progress * 2.0);
         const eased = easeOutCubic(headProgress);
         const targetX = parseInt(inputs.headX.value);
         const targetY = parseInt(inputs.headY.value);
-        const currentY = targetY - (1 - eased) * 120; // Rutscht 120px von oben rein
+        const currentY = targetY - (1 - eased) * 80;
 
         ctx.save();
         ctx.globalAlpha = eased;
@@ -252,7 +326,7 @@
         ctx.restore();
       }
 
-      // 3. Stichpunkte nacheinander animieren (Reingleiten von links)
+      // 3. Stichpunkte animieren
       const pText = inputs.propText.value;
       if (pText) {
         const lines = pText.split('\n').filter(l => l.trim() !== "");
@@ -265,13 +339,12 @@
         ctx.fillStyle = inputs.propColor.value;
 
         lines.forEach((line, index) => {
-          // Gestaffelter Start für jede Zeile
-          const delay = 0.2 + (index * 0.15); 
-          const lineProgress = Math.max(0, Math.min(1, (progress - delay) / 0.4));
+          const delay = 0.15 + (index * 0.1); 
+          const lineProgress = Math.max(0, Math.min(1, (progress - delay) / 0.3));
           const eased = easeOutCubic(lineProgress);
 
           if (lineProgress > 0) {
-            const currentX = targetX - (1 - eased) * 150; // Rutscht von links rein
+            const currentX = targetX - (1 - eased) * 120;
             ctx.save();
             ctx.globalAlpha = eased;
             ctx.fillText(line.trim(), currentX, startY);
@@ -280,9 +353,53 @@
           startY += lineHeight;
         });
       }
+
+      // 4. Preistabelle (3 Gebinde) animieren
+      const priceRows = [
+        formatPriceRow(inputs.p1Kg.value, inputs.p1Php.value),
+        formatPriceRow(inputs.p2Kg.value, inputs.p2Php.value),
+        formatPriceRow(inputs.p3Kg.value, inputs.p3Php.value)
+      ].filter(r => r !== null);
+
+      if (priceRows.length > 0) {
+        const pSize = parseInt(inputs.priceSize.value);
+        const startX = parseInt(inputs.priceX.value);
+        let startY = parseInt(inputs.priceY.value);
+        const rowHeight = pSize * 2.2;
+
+        priceRows.forEach((row, index) => {
+          // Preistabelle startet verzögert nach den Stichpunkten
+          const delay = 0.45 + (index * 0.12);
+          const rowProgress = Math.max(0, Math.min(1, (progress - delay) / 0.3));
+          const eased = easeOutCubic(rowProgress);
+
+          if (rowProgress > 0) {
+            const currentX = startX - (1 - eased) * 140;
+
+            ctx.save();
+            ctx.globalAlpha = eased;
+
+            // Hintergrund-Badge für saubere Sichtbarkeit
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
+            ctx.beginPath();
+            ctx.roundRect(currentX - 10, startY - pSize + 2, 420, pSize * 1.6, 8);
+            ctx.fill();
+
+            // Text Rendering: [Sack]  |  [Preis PHP]  |  [Preis / kg]
+            ctx.font = `bold ${pSize}px sans-serif`;
+            ctx.fillStyle = inputs.priceColor.value;
+            
+            const lineText = `${row.kgStr.padEnd(7)} │  ${row.priceStr.padEnd(11)} │  (${row.perKgStr})`;
+            ctx.fillText(lineText, currentX, startY);
+
+            ctx.restore();
+          }
+          startY += rowHeight;
+        });
+      }
     }
 
-    // Animation abspielen
+    // Animations-Ablaufsteuerung
     function playAnimation(onComplete) {
       if (animationFrameId) cancelAnimationFrame(animationFrameId);
       startTime = null;
@@ -296,23 +413,20 @@
 
         if (progress < 1) {
           animationFrameId = requestAnimationFrame(step);
-        } else {
-          // Kurz halten
-          setTimeout(() => {
-            if (onComplete) onComplete();
-          }, HOLD_DURATION);
+        } else if (onComplete) {
+          setTimeout(onComplete, HOLD_DURATION);
         }
       }
 
       animationFrameId = requestAnimationFrame(step);
     }
 
-    // Video-Recording über MediaRecorder API
+    // Video Recording
     function recordVideo() {
-      statusEl.textContent = "⏺ Aufnahme läuft...";
+      statusEl.textContent = "⏺ Video wird aufgenommen...";
       document.getElementById('recordBtn').disabled = true;
 
-      const stream = canvas.captureStream(60); // 60 FPS
+      const stream = canvas.captureStream(60);
       let mimeType = 'video/webm;codecs=vp9';
       if (!MediaRecorder.isTypeSupported(mimeType)) mimeType = 'video/webm';
       if (!MediaRecorder.isTypeSupported(mimeType)) mimeType = 'video/mp4';
@@ -326,17 +440,15 @@
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `produkt-animation.${mimeType.includes('mp4') ? 'mp4' : 'webm'}`;
+        a.download = `produkt-preis-animation.${mimeType.includes('mp4') ? 'mp4' : 'webm'}`;
         a.click();
         
-        statusEl.textContent = "✅ Video erfolgreich heruntergeladen!";
+        statusEl.textContent = "✅ Video erfolgreich erstellt!";
         document.getElementById('recordBtn').disabled = false;
       };
 
       mediaRecorder.start();
-      playAnimation(() => {
-        mediaRecorder.stop();
-      });
+      playAnimation(() => mediaRecorder.stop());
     }
 
     // Event Listener
@@ -354,7 +466,6 @@
       }
     });
 
-    // Start-Render
     renderAtProgress(1.0);
   </script>
 </body>
