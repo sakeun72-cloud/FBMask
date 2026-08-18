@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Animierter Produkt-Banner Generator</title>
+  <title>Animierter Produkt- & Preistabellen Generator</title>
   <style>
     * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
     body { max-width: 1280px; margin: 1.5rem auto; padding: 0 1rem; background: #0f172a; color: #f8fafc; }
@@ -58,7 +58,7 @@
         </select>
       </div>
       <div class="field">
-        <label>Produkt-Bild (PNG mit Transparenz)</label>
+        <label>Produkt-Bild (Alle Formate erlaubt)</label>
         <input type="file" id="fgInput" accept="image/*">
       </div>
       <div class="grid-3">
@@ -98,7 +98,7 @@
         </div>
         <div class="field">
           <label>Ziel Pos Y</label>
-          <input type="number" id="headY" value="160">
+          <input type="number" id="headY" value="150">
         </div>
       </div>
 
@@ -110,7 +110,7 @@
       <div class="grid-2">
         <div class="field">
           <label>Größe (px)</label>
-          <input type="number" id="propSize" value="24">
+          <input type="number" id="propSize" value="22">
         </div>
         <div class="field">
           <label>Farbe</label>
@@ -124,7 +124,7 @@
         </div>
         <div class="field">
           <label>Ziel Pos Y</label>
-          <input type="number" id="propY" value="250">
+          <input type="number" id="propY" value="230">
         </div>
       </div>
 
@@ -168,22 +168,12 @@
 
       <div class="grid-2">
         <div class="field">
-          <label>Schriftgröße (px)</label>
-          <input type="number" id="priceSize" value="22">
-        </div>
-        <div class="field">
-          <label>Textfarbe</label>
-          <input type="color" id="priceColor" value="#0f172a">
-        </div>
-      </div>
-      <div class="grid-2">
-        <div class="field">
           <label>Ziel Pos X</label>
           <input type="number" id="priceX" value="80">
         </div>
         <div class="field">
           <label>Ziel Pos Y</label>
-          <input type="number" id="priceY" value="440">
+          <input type="number" id="priceY" value="400">
         </div>
       </div>
 
@@ -210,7 +200,7 @@
     let animationFrameId = null;
     let startTime = null;
 
-    const ANIMATION_DURATION = 3200; // 3.2 Sek. Gesamtanimationsdauer
+    const ANIMATION_DURATION = 3200;
     const HOLD_DURATION = 1500;
 
     const inputs = [
@@ -218,13 +208,13 @@
       'headText', 'headSize', 'headColor', 'headX', 'headY',
       'propText', 'propSize', 'propColor', 'propX', 'propY',
       'p1Kg', 'p1Php', 'p2Kg', 'p2Php', 'p3Kg', 'p3Php',
-      'priceSize', 'priceColor', 'priceX', 'priceY'
+      'priceX', 'priceY'
     ].reduce((acc, id) => {
       acc[id] = document.getElementById(id);
       return acc;
     }, {});
 
-    // File Upload
+    // File Upload Handler (unterstützt JPG, PNG, WebP, etc.)
     inputs.fgInput.addEventListener('change', () => {
       const file = inputs.fgInput.files[0];
       if (!file) return;
@@ -260,37 +250,33 @@
       ctx.fillStyle = grad;
       ctx.fillRect(0, 0, 1080, 1080);
 
-      // Dekorative Weiche Karte
+      // Dekorative Karten-Basis
       ctx.fillStyle = 'rgba(255, 255, 255, 0.70)';
       ctx.beginPath();
       ctx.roundRect(50, 60, 480, 960, 24);
       ctx.fill();
     }
 
-    // Preiszeile Formatieren & Kilopreis berechnen
     function formatPriceRow(kgVal, phpVal) {
       const kg = parseFloat(kgVal);
       const php = parseFloat(phpVal);
-
       if (isNaN(kg) || isNaN(php) || kg <= 0) return null;
 
       const perKg = (php / kg).toFixed(2).replace('.', ',');
       const formattedPhp = php.toLocaleString('de-DE');
 
-      // Übersichtliche Formatierung mit Trennstrichen (Pipes)
       return {
         kgStr: `${kg} kg`,
-        priceStr: `${formattedPhp} PHP`,
-        perKgStr: `${perKg} PHP/kg`
+        formattedPhp: `${formattedPhp} PHP`,
+        perKgStr: `${perKg} PHP / kg`
       };
     }
 
-    // Haupt-Renderfunktion mit Fortschritt
     function renderAtProgress(progress) {
       ctx.clearRect(0, 0, 1080, 1080);
       drawBackground();
 
-      // 1. Produkt zeichnen
+      // 1. Produkt
       if (fgImg) {
         const scale = parseFloat(inputs.fgScale.value);
         const x = parseInt(inputs.fgX.value);
@@ -301,7 +287,7 @@
         ctx.save();
         ctx.beginPath();
         ctx.ellipse(x + w / 2, y + h - 20, w * 0.35, 25 * scale, 0, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.18)';
         ctx.filter = 'blur(15px)';
         ctx.fill();
         ctx.restore();
@@ -309,7 +295,7 @@
         ctx.drawImage(fgImg, x, y, w, h);
       }
 
-      // 2. Überschrift animieren
+      // 2. Überschrift
       const hText = inputs.headText.value;
       if (hText) {
         const headProgress = Math.min(1, progress * 2.0);
@@ -326,7 +312,7 @@
         ctx.restore();
       }
 
-      // 3. Stichpunkte animieren
+      // 3. Stichpunkte
       const pText = inputs.propText.value;
       if (pText) {
         const lines = pText.split('\n').filter(l => l.trim() !== "");
@@ -354,7 +340,7 @@
         });
       }
 
-      // 4. Preistabelle (3 Gebinde) animieren
+      // 4. Grafisch überarbeitete Preis-Karten
       const priceRows = [
         formatPriceRow(inputs.p1Kg.value, inputs.p1Php.value),
         formatPriceRow(inputs.p2Kg.value, inputs.p2Php.value),
@@ -362,44 +348,97 @@
       ].filter(r => r !== null);
 
       if (priceRows.length > 0) {
-        const pSize = parseInt(inputs.priceSize.value);
         const startX = parseInt(inputs.priceX.value);
         let startY = parseInt(inputs.priceY.value);
-        const rowHeight = pSize * 2.2;
+        const cardW = 420;
+        const cardH = 72;
 
         priceRows.forEach((row, index) => {
-          // Preistabelle startet verzögert nach den Stichpunkten
           const delay = 0.45 + (index * 0.12);
           const rowProgress = Math.max(0, Math.min(1, (progress - delay) / 0.3));
           const eased = easeOutCubic(rowProgress);
 
           if (rowProgress > 0) {
             const currentX = startX - (1 - eased) * 140;
+            const isBestValue = index === 0;
 
             ctx.save();
             ctx.globalAlpha = eased;
 
-            // Hintergrund-Badge für saubere Sichtbarkeit
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
+            // Subtle Drop Shadow für die Karte
+            ctx.shadowColor = 'rgba(15, 23, 42, 0.08)';
+            ctx.shadowBlur = 12;
+            ctx.shadowOffsetY = 4;
+
+            // Karten-Hintergrund
+            ctx.fillStyle = '#ffffff';
             ctx.beginPath();
-            ctx.roundRect(currentX - 10, startY - pSize + 2, 420, pSize * 1.6, 8);
+            ctx.roundRect(currentX, startY, cardW, cardH, 12);
             ctx.fill();
 
-            // Text Rendering: [Sack]  |  [Preis PHP]  |  [Preis / kg]
-            ctx.font = `bold ${pSize}px sans-serif`;
-            ctx.fillStyle = inputs.priceColor.value;
-            
-            const lineText = `${row.kgStr.padEnd(7)} │  ${row.priceStr.padEnd(11)} │  (${row.perKgStr})`;
-            ctx.fillText(lineText, currentX, startY);
+            // Schatten ausschalten für saubere Kanten
+            ctx.shadowColor = 'transparent';
+
+            // Farbiger Rahmen für das Top-Gebinde
+            ctx.strokeStyle = isBestValue ? '#0284c7' : '#e2e8f0';
+            ctx.lineWidth = isBestValue ? 2 : 1;
+            ctx.stroke();
+
+            // Gewichts-Pill (Links)
+            const badgeW = 85;
+            const badgeH = 46;
+            const badgeX = currentX + 13;
+            const badgeY = startY + (cardH - badgeH) / 2;
+
+            ctx.fillStyle = isBestValue ? '#0284c7' : '#f1f5f9';
+            ctx.beginPath();
+            ctx.roundRect(badgeX, badgeY, badgeW, badgeH, 8);
+            ctx.fill();
+
+            ctx.font = 'bold 20px sans-serif';
+            ctx.fillStyle = isBestValue ? '#ffffff' : '#0f172a';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(row.kgStr, badgeX + badgeW / 2, badgeY + badgeH / 2);
+
+            // Hauptpreis (Mitte / Oben)
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'alphabetic';
+            ctx.font = 'bold 22px sans-serif';
+            ctx.fillStyle = '#0f172a';
+            ctx.fillText(row.formattedPhp, currentX + 115, startY + 33);
+
+            // Kilopreis (Unter dem Hauptpreis)
+            ctx.font = '500 14px sans-serif';
+            ctx.fillStyle = '#64748b';
+            ctx.fillText(row.perKgStr, currentX + 115, startY + 54);
+
+            // "Bester Preis" Badge oben rechts für das erste Gebinde
+            if (isBestValue) {
+              const tagW = 100;
+              const tagH = 22;
+              const tagX = currentX + cardW - tagW - 12;
+              const tagY = startY + 25;
+
+              ctx.fillStyle = '#dcfce7';
+              ctx.beginPath();
+              ctx.roundRect(tagX, tagY, tagW, tagH, 6);
+              ctx.fill();
+
+              ctx.font = 'bold 11px sans-serif';
+              ctx.fillStyle = '#166534';
+              ctx.textAlign = 'center';
+              ctx.textBaseline = 'middle';
+              ctx.fillText('BESTER PREIS', tagX + tagW / 2, tagY + tagH / 2);
+            }
 
             ctx.restore();
           }
-          startY += rowHeight;
+          startY += cardH + 14; // Abstand zwischen Karten
         });
       }
     }
 
-    // Animations-Ablaufsteuerung
     function playAnimation(onComplete) {
       if (animationFrameId) cancelAnimationFrame(animationFrameId);
       startTime = null;
@@ -421,7 +460,6 @@
       animationFrameId = requestAnimationFrame(step);
     }
 
-    // Video Recording
     function recordVideo() {
       statusEl.textContent = "⏺ Video wird aufgenommen...";
       document.getElementById('recordBtn').disabled = true;
@@ -451,7 +489,6 @@
       playAnimation(() => mediaRecorder.stop());
     }
 
-    // Event Listener
     document.getElementById('playBtn').addEventListener('click', () => {
       statusEl.textContent = "▶ Vorschau läuft...";
       playAnimation(() => { statusEl.textContent = ""; });
