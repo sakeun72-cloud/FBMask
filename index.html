@@ -203,27 +203,31 @@
         <div class="field"><label>Pos Y</label><input type="number" id="priceY" value="480"></div>
       </div>
 
-      <!-- 6. MOTORRAD LIEFER-ANIMATION -->
-      <div class="section-head">6. Motorrad-Lieferung</div>
+      <!-- 6. MOTORRAD LIEFER-ANIMATION & BLÖCKE -->
+      <div class="section-head">6. Motorrad & Liefer-Blöcke</div>
       <div class="grid-2">
         <div class="field">
-          <label>Haupt-Text</label>
+          <label>Kasten-Text (Oben)</label>
           <input type="text" id="delivText" value="FREE DELIVERY">
         </div>
         <div class="field">
-          <label>Liefer-Untertitel</label>
-          <input type="text" id="delivSubText" value="Kostenlose Lieferung">
+          <label>Unterer Streifen-Text</label>
+          <input type="text" id="delivSubText" value="Kostenlose Lieferung nach Hause">
         </div>
       </div>
       <div class="grid-2">
         <div class="field">
+          <label>Unterer Text-Größe (px)</label>
+          <input type="number" id="delivSubSize" value="18">
+        </div>
+        <div class="field">
           <label>Liefer-Farbe</label>
           <input type="color" id="delivColor" value="#16a34a">
         </div>
-        <div class="field">
-          <label>Motorrad Pos Y</label>
-          <input type="number" id="delivY" value="830">
-        </div>
+      </div>
+      <div class="field">
+        <label>Motorrad Pos Y</label>
+        <input type="number" id="delivY" value="800">
       </div>
 
       <!-- ACTION BUTTONS -->
@@ -260,7 +264,7 @@
       'headText', 'headSize', 'headColor', 'headX', 'headY',
       'propText', 'propSize', 'propColor',
       'p1Kg', 'p1Php', 'p1BadgeText', 'p2Kg', 'p2Php', 'p3Kg', 'p3Php', 'priceX', 'priceY',
-      'delivText', 'delivSubText', 'delivColor', 'delivY'
+      'delivText', 'delivSubText', 'delivSubSize', 'delivColor', 'delivY'
     ].reduce((acc, id) => {
       acc[id] = document.getElementById(id);
       return acc;
@@ -662,48 +666,70 @@
         });
       }
 
-      // 7. MOTORRAD & PROMINENTER DELIVERY BADGE
+      // 7. MOTORRAD & DUAL-BLOCK LIEFERANZEIGE
       const delivStart = 0.62;
       if (progress >= delivStart) {
         const moveProgress = Math.min(1, (progress - delivStart) / 0.28);
         const targetY = parseInt(inputs.delivY.value);
-        const currentX = -100 + (135 - -100) * easeOutCubic(moveProgress);
+        // Position für die zentrierte Ausrichtung des 300px breiten Gesamtblocks angepasst
+        const currentX = -150 + (130 - -150) * easeOutCubic(moveProgress);
 
+        // Motorrad zeichnen
         drawDeliveryScooter(currentX, targetY, 1.4, moveProgress);
 
-        if (moveProgress > 0.4) {
-          const popProgress = Math.min(1, (moveProgress - 0.4) / 0.6);
+        if (moveProgress > 0.3) {
+          const popProgress = Math.min(1, (moveProgress - 0.3) / 0.7);
           const easedPop = easeOutBack(popProgress);
 
           ctx.save();
-          ctx.translate(currentX + 85, targetY - 22);
+          // Ausrichtung exakt über die Breite des Motorrads (300px Gesamtbreite)
+          ctx.translate(currentX - 95, targetY);
           ctx.scale(Math.max(0, easedPop), Math.max(0, easedPop));
 
-          // Kräftigerer Schatten für mehr Präsenz
-          ctx.shadowColor = 'rgba(22, 163, 74, 0.4)'; 
-          ctx.shadowBlur = 20; 
-          ctx.shadowOffsetY = 8;
+          const BLOCK_WIDTH = 300;
+
+          // A) OBERER KASTEN (FREE DELIVERY)
+          ctx.shadowColor = 'rgba(0, 0, 0, 0.2)'; 
+          ctx.shadowBlur = 16; 
+          ctx.shadowOffsetY = 6;
           
           ctx.fillStyle = inputs.delivColor.value;
-          // Vergrößerte Box (280px breit, 70px hoch)
           ctx.beginPath(); 
-          ctx.roundRect(0, -35, 280, 70, 16); 
+          ctx.roundRect(0, -68, BLOCK_WIDTH, 52, 14); 
           ctx.fill();
 
           ctx.shadowColor = 'transparent';
-          
-          // Größerer Haupttext
           ctx.font = 'bold 22px sans-serif'; 
           ctx.fillStyle = '#ffffff';
-          ctx.textAlign = 'left'; 
-          ctx.textBaseline = 'alphabetic';
-          ctx.fillText(inputs.delivText.value, 22, -6);
+          ctx.textAlign = 'center'; 
+          ctx.textBaseline = 'middle';
+          ctx.fillText(inputs.delivText.value, BLOCK_WIDTH / 2, -42);
 
-          // Größerer & deutlicherer Untertitel
+          // B) UNTERER STRAN/BLOCK UNTER DEM MOTORRAD (UNTERTITEL STRIP)
           if (inputs.delivSubText.value.trim() !== "") {
-            ctx.font = '600 15px sans-serif'; 
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
-            ctx.fillText(inputs.delivSubText.value, 22, 18);
+            const subY = 22; // Unter dem Motorrad platziert
+            const subHeight = 44;
+            const subFontSize = parseInt(inputs.delivSubSize.value) || 18;
+
+            ctx.shadowColor = 'rgba(15, 23, 42, 0.15)'; 
+            ctx.shadowBlur = 12; 
+            ctx.shadowOffsetY = 4;
+
+            ctx.fillStyle = isDarkBg ? '#334155' : '#ffffff';
+            ctx.beginPath(); 
+            ctx.roundRect(0, subY, BLOCK_WIDTH, subHeight, 10); 
+            ctx.fill();
+
+            ctx.shadowColor = 'transparent';
+            ctx.strokeStyle = inputs.delivColor.value;
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            ctx.font = `bold ${subFontSize}px sans-serif`; 
+            ctx.fillStyle = isDarkBg ? '#ffffff' : '#0f172a';
+            ctx.textAlign = 'center'; 
+            ctx.textBaseline = 'middle';
+            ctx.fillText(inputs.delivSubText.value, BLOCK_WIDTH / 2, subY + (subHeight / 2));
           }
 
           ctx.restore();
