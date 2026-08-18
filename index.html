@@ -185,6 +185,10 @@
         <div class="field"><label>Gebinde 1 (kg)</label><input type="number" id="p1Kg" value="25"></div>
         <div class="field"><label>Preis 1 (PHP)</label><input type="number" id="p1Php" value="3500"></div>
       </div>
+      <div class="field">
+        <label>Badge-Text (Gebinde 1)</label>
+        <input type="text" id="p1BadgeText" value="BESTER PREIS">
+      </div>
       <div class="grid-2">
         <div class="field"><label>Gebinde 2 (kg)</label><input type="number" id="p2Kg" value="10"></div>
         <div class="field"><label>Preis 2 (PHP)</label><input type="number" id="p2Php" value="1500"></div>
@@ -195,14 +199,20 @@
       </div>
       <div class="grid-2">
         <div class="field"><label>Pos X</label><input type="number" id="priceX" value="80"></div>
-        <div class="field"><label>Pos Y</label><input type="number" id="priceY" value="400"></div>
+        <div class="field"><label>Pos Y</label><input type="number" id="priceY" value="480"></div>
       </div>
 
       <!-- 6. MOTORRAD LIEFER-ANIMATION -->
       <div class="section-head">6. Motorrad-Lieferung</div>
-      <div class="field">
-        <label>Liefer-Text</label>
-        <input type="text" id="delivText" value="FREE DELIVERY">
+      <div class="grid-2">
+        <div class="field">
+          <label>Haupt-Text</label>
+          <input type="text" id="delivText" value="FREE DELIVERY">
+        </div>
+        <div class="field">
+          <label>Liefer-Untertitel</label>
+          <input type="text" id="delivSubText" value="Kostenlose Lieferung">
+        </div>
       </div>
       <div class="grid-2">
         <div class="field">
@@ -211,7 +221,7 @@
         </div>
         <div class="field">
           <label>Motorrad Pos Y</label>
-          <input type="number" id="delivY" value="730">
+          <input type="number" id="delivY" value="830">
         </div>
       </div>
 
@@ -248,8 +258,8 @@
       'statusBadge', 'customStatusText', 'statusColor', 'statusY',
       'headText', 'headSize', 'headColor', 'headX', 'headY',
       'propText', 'propSize', 'propColor',
-      'p1Kg', 'p1Php', 'p2Kg', 'p2Php', 'p3Kg', 'p3Php', 'priceX', 'priceY',
-      'delivText', 'delivColor', 'delivY'
+      'p1Kg', 'p1Php', 'p1BadgeText', 'p2Kg', 'p2Php', 'p3Kg', 'p3Php', 'priceX', 'priceY',
+      'delivText', 'delivSubText', 'delivColor', 'delivY'
     ].reduce((acc, id) => {
       acc[id] = document.getElementById(id);
       return acc;
@@ -431,20 +441,17 @@
           const px = parseInt(inputs.promoX.value);
           const py = parseInt(inputs.promoY.value);
 
-          // Eindrehen
           let baseScale = easeOutBack(promoProg);
           let rotationAngle = (1 - easeOutCubic(promoProg)) * Math.PI * 4;
           let bounceY = 0;
           let pulseScale = 1;
 
-          // Nach dem Drehen: Kontinuierliches Hüpfen & Pulsieren
           if (promoProg >= 1.0) {
             const postTime = progress - (promoStart + promoDuration);
-            bounceY = -Math.abs(Math.sin(postTime * Math.PI * 12)) * 18; // Hüpfen nach oben
-            pulseScale = 1 + Math.sin(postTime * Math.PI * 14) * 0.07;  // Rhythmischer Puls
+            bounceY = -Math.abs(Math.sin(postTime * Math.PI * 12)) * 18;
+            pulseScale = 1 + Math.sin(postTime * Math.PI * 14) * 0.07;
           }
 
-          // Gesamtskalierung (Deutlich vergrößert durch 1.35)
           const finalScale = Math.max(0, baseScale * pulseScale * 1.35);
 
           ctx.save();
@@ -452,30 +459,25 @@
           ctx.scale(finalScale, finalScale);
           ctx.rotate(rotationAngle);
 
-          // Schatten
           ctx.shadowColor = 'rgba(0,0,0,0.35)';
           ctx.shadowBlur = 18; ctx.shadowOffsetY = 8;
 
-          // Größeres Emblem (Radien 85 & 70)
           ctx.fillStyle = inputs.promoColor.value;
           drawStarburst(0, 0, 16, 85, 70);
 
           ctx.shadowColor = 'transparent';
 
-          // Innerer Weisser Kreis
           ctx.fillStyle = '#ffffff';
           ctx.beginPath();
           ctx.arc(0, 0, 58, 0, Math.PI * 2);
           ctx.fill();
 
-          // Roter Rand innen
           ctx.strokeStyle = inputs.promoColor.value;
           ctx.lineWidth = 4;
           ctx.beginPath();
           ctx.arc(0, 0, 53, 0, Math.PI * 2);
           ctx.stroke();
 
-          // Text im Emblem (Größerer Font)
           ctx.font = '900 15px sans-serif';
           ctx.fillStyle = '#0f172a';
           ctx.textAlign = 'center';
@@ -633,12 +635,19 @@
             ctx.font = '500 14px sans-serif'; ctx.fillStyle = '#64748b';
             ctx.fillText(row.perKgStr, currentX + 115, startY + 54);
 
-            if (isBestValue) {
+            // Dynamischer Badge-Text auf der 1. Preiszeile
+            const badgeText = inputs.p1BadgeText.value.trim();
+            if (isBestValue && badgeText !== "") {
+              ctx.font = 'bold 11px sans-serif';
+              const textWidth = ctx.measureText(badgeText).width;
+              const badgeWidth = Math.max(85, textWidth + 18);
+              const badgeX = currentX + 408 - badgeWidth;
+
               ctx.fillStyle = '#dcfce7';
-              ctx.beginPath(); ctx.roundRect(currentX + 308, startY + 25, 100, 22, 6); ctx.fill();
-              ctx.font = 'bold 11px sans-serif'; ctx.fillStyle = '#166534';
+              ctx.beginPath(); ctx.roundRect(badgeX, startY + 25, badgeWidth, 22, 6); ctx.fill();
+              ctx.fillStyle = '#166534';
               ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-              ctx.fillText('BEST Price', currentX + 358, startY + 36);
+              ctx.fillText(badgeText, badgeX + (badgeWidth / 2), startY + 36);
             }
             ctx.restore();
           }
@@ -672,8 +681,11 @@
           ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
           ctx.fillText(inputs.delivText.value, 18, -4);
 
-          ctx.font = '500 12px sans-serif'; ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
-          ctx.fillText('Kostenlose Lieferung', 18, 15);
+          // Variable Untertitel-Zeile
+          if (inputs.delivSubText.value.trim() !== "") {
+            ctx.font = '500 12px sans-serif'; ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+            ctx.fillText(inputs.delivSubText.value, 18, 15);
+          }
 
           ctx.restore();
         }
