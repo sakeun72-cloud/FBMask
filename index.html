@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Animierter Produkt- & Banner Generator (HD)</title>
+  <title>Animierter Produkt- & Banner Generator (HD + Bild Export)</title>
   <style>
     * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
     body { max-width: 1380px; margin: 1.5rem auto; padding: 0 1rem; background: #0f172a; color: #f8fafc; }
@@ -29,11 +29,13 @@
     
     canvas { width: 100%; max-width: 540px; height: auto; border-radius: 10px; box-shadow: 0 20px 30px -10px rgba(0,0,0,0.6); }
     
-    .btn-group { display: flex; gap: 0.5rem; margin-top: 1.25rem; }
-    .btn { flex: 1; padding: 0.85rem; background: #0284c7; color: #ffffff; border: none; border-radius: 6px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+    .btn-group { display: flex; gap: 0.5rem; margin-top: 1.25rem; flex-wrap: wrap; }
+    .btn { flex: 1; min-width: 120px; padding: 0.75rem; background: #0284c7; color: #ffffff; border: none; border-radius: 6px; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
     .btn:hover { background: #0369a1; transform: translateY(-1px); }
     .btn-anim { background: #059669; }
     .btn-anim:hover { background: #047857; }
+    .btn-img { background: #d97706; }
+    .btn-img:hover { background: #b45309; }
     .btn:disabled { background: #475569; cursor: not-allowed; transform: none; }
     
     #status { margin-top: 0.6rem; font-size: 0.85rem; color: #38bdf8; text-align: center; min-height: 1.2rem; font-weight: 500; }
@@ -41,8 +43,8 @@
 </head>
 <body>
 
-  <h1>Social Media Produkt- & Banner Generator (HD)</h1>
-  <p class="subtitle">Mit 2K Super-HD Export für gestochen scharfe Facebook-Videos</p>
+  <h1>Social Media Produkt- & Banner Generator</h1>
+  <p class="subtitle">Inklusive gestochen scharfem HD-Bild-Download für Facebook</p>
 
   <div class="app-layout">
     
@@ -142,7 +144,7 @@
       <div class="section-head">4. Überschrift & Details</div>
       <div class="field">
         <label>Titel-Text</label>
-        <input type="text" id="headText" value="FUJI">
+        <input type="text" id="headText" value="Fuji">
       </div>
       <div class="grid-2">
         <div class="field">
@@ -232,13 +234,14 @@
 
       <!-- ACTION BUTTONS -->
       <div class="btn-group">
-        <button class="btn btn-anim" id="playBtn">▶ Animation abspielen</button>
-        <button class="btn" id="recordBtn">🎬 HD-Video Exportieren</button>
+        <button class="btn btn-anim" id="playBtn">▶ Animation</button>
+        <button class="btn btn-img" id="downloadImgBtn">📷 Als Bild speichern</button>
+        <button class="btn" id="recordBtn">🎬 Video Export</button>
       </div>
       <div id="status"></div>
     </div>
 
-    <!-- CANVAS VORSCHAU (Interne Auflösung 2160x2160 für perfekte Schärfe) -->
+    <!-- CANVAS VORSCHAU -->
     <div class="preview">
       <canvas id="mainCanvas" width="2160" height="2160"></canvas>
     </div>
@@ -759,6 +762,25 @@
       }
       animationFrameId = requestAnimationFrame(step);
     }
+
+    // NEU: Funktion zum Herunterladen des Canvas als gestochen scharfes PNG-Bild
+    document.getElementById('downloadImgBtn').addEventListener('click', () => {
+      // Stellen sicher, dass das Bild im finalen Zustand (vollständig) gerendert ist
+      renderAtProgress(1.0);
+
+      statusEl.textContent = "📷 Bild wird erstellt...";
+      
+      canvas.toBlob(function(blob) {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `fuji-rice-banner-hd.png`;
+        a.click();
+        
+        statusEl.textContent = "✅ HD-Bild erfolgreich heruntergeladen!";
+        setTimeout(() => { statusEl.textContent = ""; }, 3000);
+      }, 'image/png');
+    });
 
     function recordVideo() {
       statusEl.textContent = "⏺ 2K HD-Video wird aufgenommen...";
