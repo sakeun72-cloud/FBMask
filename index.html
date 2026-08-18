@@ -3,719 +3,160 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Facebook Story Generator - FB Mask</title>
+  <title>Bild-Overlay Tool</title>
   <style>
-    :root {
-      --bg-dark: #12151e;
-      --panel-bg: #1a1e2e;
-      --input-bg: #252a3e;
-      --accent-color: #3b82f6;
-      --accent-hover: #2563eb;
-      --text-main: #f3f4f6;
-      --text-muted: #9ca3af;
-      --border-color: #374151;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background-color: var(--bg-dark);
-      color: var(--text-main);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    header {
-      background: var(--panel-bg);
-      padding: 16px 24px;
-      border-bottom: 1px solid var(--border-color);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    header h1 {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    header h1 span {
-      background: var(--accent-color);
-      color: #fff;
-      font-size: 0.75rem;
-      padding: 2px 8px;
-      border-radius: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .app-container {
-      display: flex;
-      flex: 1;
-      overflow: hidden;
-    }
-
-    /* Controls Panel */
-    .controls-panel {
-      width: 420px;
-      background: var(--panel-bg);
-      border-right: 1px solid var(--border-color);
-      padding: 24px;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    .section-title {
-      font-size: 0.875rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--text-muted);
-      margin-bottom: 8px;
-      border-bottom: 1px solid var(--border-color);
-      padding-bottom: 6px;
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    label {
-      font-size: 0.85rem;
-      font-weight: 500;
-      color: var(--text-main);
-    }
-
-    input[type="text"], select {
-      width: 100%;
-      padding: 10px 12px;
-      background: var(--input-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 6px;
-      color: #fff;
-      font-size: 0.9rem;
-      transition: border-color 0.2s;
-    }
-
-    input[type="text"]:focus, select:focus {
-      outline: none;
-      border-color: var(--accent-color);
-    }
-
-    .file-upload-box {
-      border: 2px dashed var(--border-color);
-      padding: 16px;
-      text-align: center;
-      border-radius: 8px;
-      background: rgba(255,255,255,0.02);
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .file-upload-box:hover {
-      border-color: var(--accent-color);
-      background: rgba(59, 130, 246, 0.05);
-    }
-
-    .file-upload-box input {
-      display: none;
-    }
-
-    .file-upload-label {
-      cursor: pointer;
-      font-size: 0.85rem;
-      color: var(--accent-color);
-      font-weight: 600;
-    }
-
-    .attributes-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-
-    .toggle-group {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 12px;
-      background: var(--input-bg);
-      border-radius: 6px;
-    }
-
-    .switch {
-      position: relative;
-      display: inline-block;
-      width: 44px;
-      height: 22px;
-    }
-
-    .switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-
-    .slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background-color: #4b5563;
-      transition: .3s;
-      border-radius: 22px;
-    }
-
-    .slider:before {
-      position: absolute;
-      content: "";
-      height: 16px;
-      width: 16px;
-      left: 3px;
-      bottom: 3px;
-      background-color: white;
-      transition: .3s;
-      border-radius: 50%;
-    }
-
-    input:checked + .slider {
-      background-color: var(--accent-color);
-    }
-
-    input:checked + .slider:before {
-      transform: translateX(22px);
-    }
-
-    .btn-download {
-      background: var(--accent-color);
-      color: #fff;
-      border: none;
-      padding: 14px;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: background 0.2s;
-      margin-top: auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-
-    .btn-download:hover {
-      background: var(--accent-hover);
-    }
-
-    /* Canvas Preview Area */
-    .preview-panel {
-      flex: 1;
-      background: #0b0d14;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      position: relative;
-    }
-
-    .canvas-wrapper {
-      position: relative;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
-      border-radius: 12px;
-      overflow: hidden;
-      max-height: 88vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    canvas {
-      height: 88vh;
-      width: auto;
-      aspect-ratio: 9 / 16;
-      display: block;
-      background: #000;
-    }
-
-    @media (max-width: 900px) {
-      .app-container {
-        flex-direction: column;
-        overflow: auto;
-      }
-      .controls-panel {
-        width: 100%;
-      }
-      canvas {
-        height: auto;
-        width: 100%;
-        max-width: 360px;
-      }
-    }
+    * { box-sizing: border-box; font-family: sans-serif; }
+    body { max-width: 900px; margin: 2rem auto; padding: 0 1rem; background: #f4f4f9; color: #333; }
+    h1 { text-align: center; }
+    .controls { background: #fff; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 1.5rem; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1rem; }
+    label { display: block; font-weight: bold; margin-bottom: 0.5rem; }
+    input[type="file"], input[type="range"] { width: 100%; }
+    .slider-group { margin-top: 0.5rem; }
+    canvas { max-width: 100%; height: auto; display: block; margin: 0 auto; background: #ddd; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .btn { display: block; width: 100%; padding: 0.8rem; background: #0066cc; color: #fff; border: none; border-radius: 4px; font-size: 1rem; cursor: pointer; font-weight: bold; margin-top: 1rem; }
+    .btn:hover { background: #0052a3; }
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>FB Story Mask Generator <span>v2.0</span></h1>
-  </header>
+  <h1>PNG-Overlay Editor</h1>
 
-  <div class="app-container">
-    <!-- Controls Sidebar -->
-    <div class="controls-panel">
-      
-      <div class="section-title">1. Hauptangaben</div>
-      
-      <div class="form-group">
-        <label for="inputTitle">Überschrift / Produktname:</label>
-        <input type="text" id="inputTitle" value="JASMIN ORIGINAL" placeholder="z.B. JASMIN ORIGINAL">
+  <div class="controls">
+    <div class="grid">
+      <div>
+        <label for="bgInput">1. Hintergrundbild (JPG/PNG)</label>
+        <input type="file" id="bgInput" accept="image/*">
       </div>
-
-      <div class="form-group">
-        <label for="inputSubtitle">Untertitel / Slogan (Optional):</label>
-        <input type="text" id="inputSubtitle" value="Premium Quality Rice" placeholder="z.B. Premium Quality Rice">
-      </div>
-
-      <div class="section-title">2. Produktbild</div>
-
-      <div class="form-group">
-        <div class="file-upload-box" onclick="document.getElementById('inputProduct').click()">
-          <input type="file" id="inputProduct" accept="image/*">
-          <div class="file-upload-label">📁 Bild auswählen oder hierher ziehen</div>
-          <div style="font-size:0.75rem; color:var(--text-muted); margin-top:4px;" id="fileName">Kein Bild gewählt</div>
-        </div>
-      </div>
-
-      <div class="section-title">3. Eigenschaften (bis zu 6)</div>
-      
-      <div class="attributes-grid">
-        <div class="form-group">
-          <label for="attr1">Eigenschaft 1:</label>
-          <input type="text" class="attr-input" id="attr1" value="Malambot" placeholder="z.B. Malambot">
-        </div>
-        <div class="form-group">
-          <label for="attr2">Eigenschaft 2:</label>
-          <input type="text" class="attr-input" id="attr2" value="Masarap" placeholder="z.B. Masarap">
-        </div>
-        <div class="form-group">
-          <label for="attr3">Eigenschaft 3:</label>
-          <input type="text" class="attr-input" id="attr3" value="May Alsa" placeholder="z.B. May Alsa">
-        </div>
-        <div class="form-group">
-          <label for="attr4">Eigenschaft 4:</label>
-          <input type="text" class="attr-input" id="attr4" value="Maputi" placeholder="z.B. Maputi">
-        </div>
-        <div class="form-group">
-          <label for="attr5">Eigenschaft 5:</label>
-          <input type="text" class="attr-input" id="attr5" value="" placeholder="Optional">
-        </div>
-        <div class="form-group">
-          <label for="attr6">Eigenschaft 6:</label>
-          <input type="text" class="attr-input" id="attr6" value="" placeholder="Optional">
-        </div>
-      </div>
-
-      <div class="section-title">4. Design & Einstellungen</div>
-
-      <div class="form-group">
-        <label for="bgTheme">Hintergrund-Stil:</label>
-        <select id="bgTheme">
-          <option value="warm-gold">Warmes Gold / Sand (Original)</option>
-          <option value="emerald">Smaragd Grün (Organic)</option>
-          <option value="royal-blue">Royal Blau (Premium)</option>
-          <option value="dark-slate">Dunkler Schiefer (Modern)</option>
-        </select>
-      </div>
-
-      <div class="toggle-group">
-        <label for="toggleSafeZone">Safe Zones anzeigen (FB UI):</label>
-        <label class="switch">
-          <input type="checkbox" id="toggleSafeZone" checked>
-          <span class="slider"></span>
-        </label>
-      </div>
-
-      <button class="btn-download" id="btnDownload">
-        ⬇️ Story Bild Herunterladen (1080x1920)
-      </button>
-
-    </div>
-
-    <!-- Live Preview Canvas -->
-    <div class="preview-panel">
-      <div class="canvas-wrapper">
-        <canvas id="storyCanvas" width="1080" height="1920"></canvas>
+      <div>
+        <label for="fgInput">2. Vordergrund (Transpar. PNG)</label>
+        <input type="file" id="fgInput" accept="image/png, image/webp">
       </div>
     </div>
+
+    <hr>
+
+    <div class="grid">
+      <div class="slider-group">
+        <label>Skalierung: <span id="scaleVal">100%</span></label>
+        <input type="range" id="scale" min="0.1" max="2" step="0.05" value="1">
+      </div>
+      <div class="slider-group">
+        <label>Position X: <span id="posXVal">0px</span></label>
+        <input type="range" id="posX" min="-500" max="500" value="0">
+      </div>
+      <div class="slider-group">
+        <label>Position Y: <span id="posYVal">0px</span></label>
+        <input type="range" id="posY" min="-500" max="500" value="0">
+      </div>
+    </div>
+
+    <button class="btn" id="downloadBtn">Fertiges Bild herunterladen</button>
   </div>
 
+  <canvas id="editorCanvas"></canvas>
+
   <script>
-    const canvas = document.getElementById('storyCanvas');
+    const bgInput = document.getElementById('bgInput');
+    const fgInput = document.getElementById('fgInput');
+    const canvas = document.getElementById('editorCanvas');
     const ctx = canvas.getContext('2d');
 
-    // App State
-    const state = {
-      title: 'JASMIN ORIGINAL',
-      subtitle: 'Premium Quality Rice',
-      productImg: null,
-      attributes: ['Malambot', 'Masarap', 'May Alsa', 'Maputi', '', ''],
-      bgTheme: 'warm-gold',
-      showSafeZone: true
-    };
+    const scaleInput = document.getElementById('scale');
+    const posXInput = document.getElementById('posX');
+    const posYInput = document.getElementById('posY');
 
-    // Color themes
-    const themes = {
-      'warm-gold': {
-        bgStart: '#C89B65',
-        bgEnd: '#E8CA9B',
-        accentCircle: 'rgba(255, 255, 255, 0.18)',
-        headerFill: '#1D3B8B',
-        headerStroke: '#FFFFFF',
-        badgeBg: '#FFFFFF',
-        badgeText: '#1E293B',
-        badgeBorder: '#E2E8F0',
-        frameBorder: 'rgba(255, 255, 255, 0.4)'
-      },
-      'emerald': {
-        bgStart: '#1b4332',
-        bgEnd: '#40916c',
-        accentCircle: 'rgba(255, 255, 255, 0.15)',
-        headerFill: '#D8F3DC',
-        headerStroke: '#081C15',
-        badgeBg: '#FFFFFF',
-        badgeText: '#081C15',
-        badgeBorder: '#B7E4C7',
-        frameBorder: 'rgba(255, 255, 255, 0.3)'
-      },
-      'royal-blue': {
-        bgStart: '#1e3a8a',
-        bgEnd: '#3b82f6',
-        accentCircle: 'rgba(255, 255, 255, 0.15)',
-        headerFill: '#FEF08A',
-        headerStroke: '#1E3A8A',
-        badgeBg: '#FFFFFF',
-        badgeText: '#1E3A8A',
-        badgeBorder: '#BFDBFE',
-        frameBorder: 'rgba(255, 255, 255, 0.3)'
-      },
-      'dark-slate': {
-        bgStart: '#0f172a',
-        bgEnd: '#334155',
-        accentCircle: 'rgba(255, 255, 255, 0.08)',
-        headerFill: '#38BDF8',
-        headerStroke: '#0F172A',
-        badgeBg: '#1E293B',
-        badgeText: '#F8FAFC',
-        badgeBorder: '#475569',
-        frameBorder: 'rgba(255, 255, 255, 0.2)'
-      }
-    };
+    const scaleVal = document.getElementById('scaleVal');
+    const posXVal = document.getElementById('posXVal');
+    const posYVal = document.getElementById('posYVal');
+    const downloadBtn = document.getElementById('downloadBtn');
 
-    // Helper: Round Rectangle path
-    function drawRoundRect(ctx, x, y, w, h, radius) {
-      ctx.beginPath();
-      ctx.moveTo(x + radius, y);
-      ctx.arcTo(x + w, y, x + w, y + h, radius);
-      ctx.arcTo(x + w, y + h, x, y + h, radius);
-      ctx.arcTo(x, y + h, x, y, radius);
-      ctx.arcTo(x, y, x + w, y, radius);
-      ctx.closePath();
+    let bgImg = null;
+    let fgImg = null;
+
+    // Bild aus Datei-Input laden
+    function loadImage(fileInput, callback) {
+      const file = fileInput.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => callback(img);
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
     }
 
-    // Draw Background
-    function drawBackground() {
-      const theme = themes[state.bgTheme] || themes['warm-gold'];
+    // Canvas rendern
+    function draw() {
+      if (!bgImg) return;
 
-      // Linear Gradient
-      const grad = ctx.createLinearGradient(0, 0, 0, 1920);
-      grad.addColorStop(0, theme.bgStart);
-      grad.addColorStop(1, theme.bgEnd);
-      ctx.fillStyle = grad;
-      ctx.fillRect(0, 0, 1080, 1920);
+      // Canvas auf Arbeitsgröße des Hintergrundbilds setzen
+      canvas.width = bgImg.width;
+      canvas.height = bgImg.height;
 
-      // Decorative Background Circles
-      ctx.fillStyle = theme.accentCircle;
-      ctx.beginPath();
-      ctx.arc(540, 960, 480, 0, Math.PI * 2);
-      ctx.fill();
+      // Regler-Reichweiten dynamisch an die Bildgröße anpassen
+      posXInput.min = -bgImg.width;
+      posXInput.max = bgImg.width;
+      posYInput.min = -bgImg.height;
+      posYInput.max = bgImg.height;
 
-      ctx.beginPath();
-      ctx.arc(540, 960, 360, 0, Math.PI * 2);
-      ctx.fill();
-    }
+      // Clear Canvas
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Main Render Function
-    function render() {
-      const theme = themes[state.bgTheme] || themes['warm-gold'];
-      ctx.clearRect(0, 0, 1080, 1920);
+      // 1. Hintergrund zeichnen
+      ctx.drawImage(bgImg, 0, 0);
 
-      // 1. Background
-      drawBackground();
+      // 2. Transparente PNG drüberlegen (Browser verarbeitet Alpha-Kanal automatisch)
+      if (fgImg) {
+        const scale = parseFloat(scaleInput.value);
+        const x = parseInt(posXInput.value);
+        const y = parseInt(posYInput.value);
 
-      // 2. Header Title
-      if (state.title.trim() !== '') {
-        ctx.save();
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
+        const w = fgImg.width * scale;
+        const h = fgImg.height * scale;
 
-        // Dynamic font size fitting
-        let fontSize = 82;
-        ctx.font = `900 ${fontSize}px "Arial Black", "Impact", sans-serif`;
-        while (ctx.measureText(state.title.toUpperCase()).width > 940 && fontSize > 40) {
-          fontSize -= 4;
-          ctx.font = `900 ${fontSize}px "Arial Black", "Impact", sans-serif`;
-        }
-
-        const titleY = 320;
-
-        // Shadow
-        ctx.shadowColor = 'rgba(0,0,0,0.35)';
-        ctx.shadowBlur = 15;
-        ctx.shadowOffsetY = 6;
-
-        // Text Stroke (Outer Outline)
-        ctx.lineWidth = 14;
-        ctx.strokeStyle = theme.headerStroke;
-        ctx.strokeText(state.title.toUpperCase(), 540, titleY);
-
-        // Text Fill
-        ctx.fillStyle = theme.headerFill;
-        ctx.fillText(state.title.toUpperCase(), 540, titleY);
-
-        ctx.restore();
-      }
-
-      // Subtitle if provided
-      if (state.subtitle.trim() !== '') {
-        ctx.save();
-        ctx.font = 'bold 32px sans-serif';
-        ctx.textAlign = 'center';
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
-        ctx.shadowColor = 'rgba(0,0,0,0.4)';
-        ctx.shadowBlur = 8;
-        ctx.fillText(state.subtitle, 540, 395);
-        ctx.restore();
-      }
-
-      // Filter active non-empty attributes
-      const activeAttrs = state.attributes.map(a => a.trim()).filter(a => a.length > 0);
-
-      // Layout Geometry
-      // Main Product Image Area: Left-Center prominent frame
-      // Product Frame: X: 70, Y: 450, W: 580, H: 1100
-      const imgFrameX = 70;
-      const imgFrameY = 450;
-      const imgFrameW = activeAttrs.length > 0 ? 580 : 940; // Expand width if no attributes!
-      const imgFrameH = 1120;
-
-      // Draw Main Product Image Frame / Picture
-      ctx.save();
-      if (state.productImg) {
-        // Draw image inside framed bounds with object-fit: contain logic
-        const img = state.productImg;
-        const imgRatio = img.width / img.height;
-        const frameRatio = imgFrameW / imgFrameH;
-
-        let renderW, renderH, renderX, renderY;
-
-        if (imgRatio > frameRatio) {
-          renderW = imgFrameW;
-          renderH = imgFrameW / imgRatio;
-          renderX = imgFrameX;
-          renderY = imgFrameY + (imgFrameH - renderH) / 2;
-        } else {
-          renderH = imgFrameH;
-          renderW = imgFrameH * imgRatio;
-          renderX = imgFrameX + (imgFrameW - renderW) / 2;
-          renderY = imgFrameY;
-        }
-
-        // Draw shadow behind image
-        ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
-        ctx.shadowBlur = 25;
-        ctx.shadowOffsetY = 10;
-
-        ctx.drawImage(img, renderX, renderY, renderW, renderH);
-
-      } else {
-        // Placeholder Box
-        ctx.shadowColor = 'rgba(0,0,0,0.15)';
-        ctx.shadowBlur = 15;
-        drawRoundRect(ctx, imgFrameX, imgFrameY, imgFrameW, imgFrameH, 24);
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.25)';
-        ctx.fill();
-        ctx.lineWidth = 3;
-        ctx.strokeStyle = theme.frameBorder;
-        ctx.stroke();
-
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
-        ctx.font = 'bold 36px sans-serif';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText('📷 Produktbild hochladen', imgFrameX + imgFrameW / 2, imgFrameY + imgFrameH / 2);
-      }
-      ctx.restore();
-
-      // 3. Draw Side Attributes (Pills / Badges)
-      if (activeAttrs.length > 0) {
-        const attrStartX = 680;
-        const attrStartY = 480;
-        const attrW = 330;
-        const attrH = 84;
-        const gap = 24;
-
-        activeAttrs.slice(0, 6).forEach((attrText, index) => {
-          const badgeY = attrStartY + index * (attrH + gap);
-
-          ctx.save();
-
-          // Badge Background Shadow
-          ctx.shadowColor = 'rgba(0, 0, 0, 0.25)';
-          ctx.shadowBlur = 12;
-          ctx.shadowOffsetY = 4;
-
-          // Draw Badge Container (Pill shape)
-          drawRoundRect(ctx, attrStartX, badgeY, attrW, attrH, 24);
-          ctx.fillStyle = theme.badgeBg;
-          ctx.fill();
-
-          ctx.lineWidth = 2;
-          ctx.strokeStyle = theme.badgeBorder;
-          ctx.stroke();
-
-          // Draw Text
-          ctx.shadowColor = 'transparent'; // Reset shadow for clean text
-          ctx.font = 'bold 34px sans-serif';
-          ctx.fillStyle = theme.badgeText;
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'middle';
-
-          // Fit text inside badge if too long
-          let textW = ctx.measureText(attrText).width;
-          let attrFontSize = 34;
-          while (textW > attrW - 30 && attrFontSize > 20) {
-            attrFontSize -= 2;
-            ctx.font = `bold ${attrFontSize}px sans-serif`;
-            textW = ctx.measureText(attrText).width;
-          }
-
-          ctx.fillText(attrText, attrStartX + attrW / 2, badgeY + attrH / 2);
-
-          ctx.restore();
-        });
-      }
-
-      // 4. Safe Zone Indicator Overlay
-      if (state.showSafeZone) {
-        ctx.save();
-        
-        // Top Safe Zone (Profile picture / story progress area: ~220px)
-        ctx.fillStyle = 'rgba(239, 68, 68, 0.18)';
-        ctx.fillRect(0, 0, 1080, 220);
-
-        // Bottom Safe Zone (Send message / action buttons area: ~260px)
-        ctx.fillRect(0, 1660, 1080, 260);
-
-        // Dashed Boundary Line
-        ctx.strokeStyle = '#ef4444';
-        ctx.lineWidth = 4;
-        ctx.setLineDash([16, 12]);
-        
-        ctx.beginPath();
-        ctx.moveTo(0, 220);
-        ctx.lineTo(1080, 220);
-        ctx.moveTo(0, 1660);
-        ctx.lineTo(1080, 1660);
-        ctx.stroke();
-
-        // Safe zone text tags
-        ctx.font = 'bold 26px sans-serif';
-        ctx.fillStyle = '#ef4444';
-        ctx.textAlign = 'center';
-        ctx.fillText('⚠️ Facebook Story Safe Zone (Oben)', 540, 120);
-        ctx.fillText('⚠️ Facebook Story Safe Zone (Unten)', 540, 1780);
-
-        ctx.restore();
+        ctx.drawImage(fgImg, x, y, w, h);
       }
     }
 
-    // Attach Event Listeners
-    document.getElementById('inputTitle').addEventListener('input', (e) => {
-      state.title = e.target.value;
-      render();
-    });
-
-    document.getElementById('inputSubtitle').addEventListener('input', (e) => {
-      state.subtitle = e.target.value;
-      render();
-    });
-
-    document.querySelectorAll('.attr-input').forEach((input, index) => {
-      input.addEventListener('input', (e) => {
-        state.attributes[index] = e.target.value;
-        render();
+    // Event Listener für Bild-Uploads
+    bgInput.addEventListener('change', () => {
+      loadImage(bgInput, (img) => {
+        bgImg = img;
+        draw();
       });
     });
 
-    document.getElementById('bgTheme').addEventListener('change', (e) => {
-      state.bgTheme = e.target.value;
-      render();
+    fgInput.addEventListener('change', () => {
+      loadImage(fgInput, (img) => {
+        fgImg = img;
+        draw();
+      });
     });
 
-    document.getElementById('toggleSafeZone').addEventListener('change', (e) => {
-      state.showSafeZone = e.target.checked;
-      render();
+    // Event Listener für Regler
+    [scaleInput, posXInput, posYInput].forEach(input => {
+      input.addEventListener('input', () => {
+        scaleVal.textContent = `${Math.round(scaleInput.value * 100)}%`;
+        posXVal.textContent = `${posXInput.value}px`;
+        posYVal.textContent = `${posYInput.value}px`;
+        draw();
+      });
     });
 
-    document.getElementById('inputProduct').addEventListener('change', (e) => {
-      const file = e.target.files[0];
-      if (file) {
-        document.getElementById('fileName').textContent = file.name;
-        const reader = new FileReader();
-        reader.onload = (event) => {
-          const img = new Image();
-          img.onload = () => {
-            state.productImg = img;
-            render();
-          };
-          img.src = event.target.result;
-        };
-        reader.readAsDataURL(file);
+    // Download-Funktion
+    downloadBtn.addEventListener('click', () => {
+      if (!bgImg) {
+        alert('Bitte lade zuerst ein Hintergrundbild hoch.');
+        return;
       }
-    });
-
-    // Download Button Click Handler
-    document.getElementById('btnDownload').addEventListener('click', () => {
-      // Temporarily hide safe zone for final clean image export
-      const currentSafeZoneState = state.showSafeZone;
-      state.showSafeZone = false;
-      render();
-
       const link = document.createElement('a');
-      const filenameTitle = state.title.trim().toLowerCase().replace(/[^a-z0-9]/g, '-') || 'story';
-      link.download = `fb-story-${filenameTitle}.png`;
-      link.href = canvas.toDataURL('image/png', 1.0);
+      link.download = 'overlay-ergebnis.png';
+      link.href = canvas.toDataURL('image/png');
       link.click();
-
-      // Restore safe zone state
-      state.showSafeZone = currentSafeZoneState;
-      render();
     });
-
-    // Initial render
-    render();
   </script>
 </body>
 </html>
