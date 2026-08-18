@@ -569,8 +569,7 @@
       // 5. STICHPUNKTE
       const pText = inputs.propText.value;
       if (pText) {
-        const lines = pText.split('
-').filter(l => l.trim() !== "");
+        const lines = pText.split('\n').filter(l => l.trim() !== "");
         const fontSize = parseInt(inputs.propSize.value);
         const targetX = parseInt(inputs.headX.value);
         let startY = parseInt(inputs.headY.value) + 50;
