@@ -3,79 +3,88 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Produktbild & Text Studio</title>
+  <title>Animiertes Produkt-Studio</title>
   <style>
     * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    body { max-width: 1200px; margin: 1.5rem auto; padding: 0 1rem; background: #f1f5f9; color: #0f172a; }
+    body { max-width: 1280px; margin: 1.5rem auto; padding: 0 1rem; background: #0f172a; color: #f8fafc; }
     h1 { text-align: center; font-size: 1.6rem; margin-bottom: 1.5rem; }
     
-    .app-layout { display: grid; grid-template-columns: 380px 1fr; gap: 1.5rem; align-items: start; }
-    @media (max-width: 850px) { .app-layout { grid-template-columns: 1fr; } }
+    .app-layout { display: grid; grid-template-columns: 400px 1fr; gap: 1.5rem; align-items: start; }
+    @media (max-width: 900px) { .app-layout { grid-template-columns: 1fr; } }
     
-    .controls { background: #ffffff; padding: 1.25rem; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); max-height: 88vh; overflow-y: auto; }
-    .preview { background: #ffffff; padding: 1.25rem; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); text-align: center; }
+    .controls { background: #1e293b; padding: 1.25rem; border-radius: 12px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3); max-height: 88vh; overflow-y: auto; }
+    .preview { background: #1e293b; padding: 1.25rem; border-radius: 12px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3); text-align: center; }
     
-    .section-head { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #2563eb; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.25rem; margin: 1.2rem 0 0.8rem 0; }
+    .section-head { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #38bdf8; border-bottom: 1px solid #334155; padding-bottom: 0.3rem; margin: 1.2rem 0 0.8rem 0; }
     .section-head:first-of-type { margin-top: 0; }
     
     .field { margin-bottom: 0.75rem; }
-    label { display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 0.25rem; }
-    input[type="text"], textarea, input[type="file"], select { width: 100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.85rem; }
-    textarea { resize: vertical; height: 60px; }
+    label { display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 0.25rem; color: #cbd5e1; }
+    input[type="text"], textarea, input[type="file"], select, input[type="number"] { width: 100%; padding: 0.5rem; background: #0f172a; border: 1px solid #334155; border-radius: 6px; font-size: 0.85rem; color: #fff; }
+    textarea { resize: vertical; height: 65px; }
     
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
     .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem; }
     
-    canvas { max-width: 100%; height: auto; border-radius: 8px; border: 1px solid #cbd5e1; background: #e2e8f0; }
+    canvas { max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.5); }
     
-    .btn { display: block; width: 100%; padding: 0.8rem; background: #2563eb; color: #ffffff; border: none; border-radius: 6px; font-size: 0.95rem; font-weight: 600; cursor: pointer; margin-top: 1rem; }
-    .btn:hover { background: #1d4ed8; }
+    .btn-group { display: flex; gap: 0.5rem; margin-top: 1rem; }
+    .btn { flex: 1; padding: 0.85rem; background: #0284c7; color: #ffffff; border: none; border-radius: 6px; font-size: 0.9rem; font-weight: 600; cursor: pointer; }
+    .btn:hover { background: #0369a1; }
+    .btn-anim { background: #059669; }
+    .btn-anim:hover { background: #047857; }
+    .btn:disabled { background: #475569; cursor: not-allowed; }
+    
+    #status { margin-top: 0.5rem; font-size: 0.85rem; color: #38bdf8; text-align: center; min-height: 1.2rem; }
   </style>
 </head>
 <body>
 
-  <h1>Produktbild & Infografik Generator</h1>
+  <h1>Animierter Produkt-Banner Generator</h1>
 
   <div class="app-layout">
     
     <!-- STEUERUNG -->
     <div class="controls">
       
-      <div class="section-head">1. Bilder</div>
+      <div class="section-head">1. Hintergrund & Produkt</div>
       <div class="field">
-        <label>Hintergrundbild</label>
-        <input type="file" id="bgInput" accept="image/*">
+        <label>Layout-Stil</label>
+        <select id="bgStyle">
+          <option value="warmStudio">Warmes Fotostudio</option>
+          <option value="modernClean">Modernes Slate / Hellgrau</option>
+          <option value="freshGreen">Frisches Natur-Grün</option>
+          <option value="royalBlue">Elegantes Premium Blau</option>
+        </select>
       </div>
       <div class="field">
-        <label>Produkt / Overlay (PNG)</label>
+        <label>Eigenes Produkt (PNG mit Transparenz)</label>
         <input type="file" id="fgInput" accept="image/png, image/webp">
       </div>
-      
-      <div class="section-head">2. Produkt-Positioning</div>
       <div class="grid-3">
         <div class="field">
           <label>Größe</label>
-          <input type="range" id="fgScale" min="0.1" max="2" step="0.05" value="0.8">
+          <input type="range" id="fgScale" min="0.1" max="1.5" step="0.02" value="0.7">
         </div>
         <div class="field">
           <label>Pos X</label>
-          <input type="range" id="fgX" min="-500" max="500" value="50">
+          <input type="range" id="fgX" min="0" max="1080" value="520">
         </div>
         <div class="field">
           <label>Pos Y</label>
-          <input type="range" id="fgY" min="-500" max="500" value="50">
+          <input type="range" id="fgY" min="0" max="1080" value="180">
         </div>
       </div>
 
-      <div class="section-head">3. Überschrift</div>
+      <div class="section-head">2. Überschrift</div>
       <div class="field">
         <label>Titel-Text</label>
-        <input type="text" id="headText" value="Perfekter Jasmine Reis 25kg">
+        <input type="text" id="headText" value="PERFEKTER JASMINE REIS">
       </div>
       <div class="grid-2">
         <div class="field">
           <label>Größe (px)</label>
-          <input type="number" id="headSize" value="42">
+          <input type="number" id="headSize" value="48">
         </div>
         <div class="field">
           <label>Farbe</label>
@@ -84,24 +93,24 @@
       </div>
       <div class="grid-2">
         <div class="field">
-          <label>Text Pos X</label>
-          <input type="number" id="headX" value="40">
+          <label>Ziel Pos X</label>
+          <input type="number" id="headX" value="80">
         </div>
         <div class="field">
-          <label>Text Pos Y</label>
-          <input type="number" id="headY" value="80">
+          <label>Ziel Pos Y</label>
+          <input type="number" id="headY" value="180">
         </div>
       </div>
 
-      <div class="section-head">4. Eigenschaften & Stichpunkte</div>
+      <div class="section-head">3. Eigenschaften & Animation</div>
       <div class="field">
-        <label>Eigenschaften (Eine pro Zeile)</label>
-        <textarea id="propText">100% Premium Qualität&#10;Ideal für Asiatische Gerichte&#10;Extra langer Duftreis&#10;Großpackung 25kg</textarea>
+        <label>Stichpunkte (1 pro Zeile)</label>
+        <textarea id="propText">✓ 100% Premium Qualität&#10;✓ Extra langer Duftreis&#10;✓ Ideal für asiatische Gerichte&#10;✓ Vorteilspackung 25kg</textarea>
       </div>
       <div class="grid-2">
         <div class="field">
           <label>Größe (px)</label>
-          <input type="number" id="propSize" value="24">
+          <input type="number" id="propSize" value="28">
         </div>
         <div class="field">
           <label>Farbe</label>
@@ -110,21 +119,25 @@
       </div>
       <div class="grid-2">
         <div class="field">
-          <label>Liste Pos X</label>
-          <input type="number" id="propX" value="40">
+          <label>Ziel Pos X</label>
+          <input type="number" id="propX" value="80">
         </div>
         <div class="field">
-          <label>Liste Pos Y</label>
-          <input type="number" id="propY" value="150">
+          <label>Ziel Pos Y</label>
+          <input type="number" id="propY" value="280">
         </div>
       </div>
 
-      <button class="btn" id="downloadBtn">Bild herunterladen</button>
+      <div class="btn-group">
+        <button class="btn btn-anim" id="playBtn">▶ Vorschau</button>
+        <button class="btn" id="recordBtn">🎬 Video Exportieren</button>
+      </div>
+      <div id="status"></div>
     </div>
 
-    <!-- VORSCHAU CANVAS -->
+    <!-- CANVAS VORSCHAU -->
     <div class="preview">
-      <canvas id="mainCanvas" width="800" height="800"></canvas>
+      <canvas id="mainCanvas" width="1080" height="1080"></canvas>
     </div>
 
   </div>
@@ -132,13 +145,19 @@
   <script>
     const canvas = document.getElementById('mainCanvas');
     const ctx = canvas.getContext('2d');
+    const statusEl = document.getElementById('status');
 
     let bgImg = null;
     let fgImg = null;
 
-    // Alle Steuerelemente erfassen
+    // Animations-Status
+    let animationFrameId = null;
+    let startTime = null;
+    const ANIMATION_DURATION = 2500; // 2.5 Sekunden Bewegung
+    const HOLD_DURATION = 1500;      // 1.5 Sekunden Standbild am Ende
+
     const inputs = [
-      'bgInput', 'fgInput', 'fgScale', 'fgX', 'fgY',
+      'bgStyle', 'fgInput', 'fgScale', 'fgX', 'fgY',
       'headText', 'headSize', 'headColor', 'headX', 'headY',
       'propText', 'propSize', 'propColor', 'propX', 'propY'
     ].reduce((acc, id) => {
@@ -146,113 +165,197 @@
       return acc;
     }, {});
 
-    // Bild-Upload Handler
-    function handleFileSelect(fileInput, callback) {
-      const file = fileInput.files[0];
+    // File Upload
+    inputs.fgInput.addEventListener('change', () => {
+      const file = inputs.fgInput.files[0];
       if (!file) return;
       const reader = new FileReader();
       reader.onload = (e) => {
         const img = new Image();
-        img.onload = () => callback(img);
+        img.onload = () => { fgImg = img; renderAtProgress(1.0); };
         img.src = e.target.result;
       };
       reader.readAsDataURL(file);
+    });
+
+    // Ease-Out-Funktion für flüssiges Abbremsen
+    function easeOutCubic(x) {
+      return 1 - Math.pow(1 - x, 3);
     }
 
-    inputs.bgInput.addEventListener('change', () => {
-      handleFileSelect(inputs.bgInput, (img) => {
-        bgImg = img;
-        canvas.width = img.width;
-        canvas.height = img.height;
-        
-        // Slider an Bildgröße anpassen
-        inputs.fgX.min = -img.width; inputs.fgX.max = img.width;
-        inputs.fgY.min = -img.height; inputs.fgY.max = img.height;
-        draw();
-      });
-    });
-
-    inputs.fgInput.addEventListener('change', () => {
-      handleFileSelect(inputs.fgInput, (img) => {
-        fgImg = img;
-        draw();
-      });
-    });
-
-    // Haupt-Zeichenfunktion
-    function draw() {
-      // Canvas zurücksetzen
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      // 1. Hintergrund zeichnen (falls hochgeladen, sonst Platzhalter)
-      if (bgImg) {
-        ctx.drawImage(bgImg, 0, 0);
+    // Prozeduralen Hintergrund rendern
+    function drawBackground() {
+      const style = inputs.bgStyle.value;
+      let grad;
+      if (style === 'warmStudio') {
+        grad = ctx.createRadialGradient(800, 300, 50, 540, 540, 800);
+        grad.addColorStop(0, '#ffffff'); grad.addColorStop(0.4, '#f5efe6'); grad.addColorStop(1, '#e6dcce');
+      } else if (style === 'freshGreen') {
+        grad = ctx.createRadialGradient(800, 400, 100, 540, 540, 850);
+        grad.addColorStop(0, '#f0fdf4'); grad.addColorStop(0.6, '#dcfce7'); grad.addColorStop(1, '#bbf7d0');
+      } else if (style === 'royalBlue') {
+        grad = ctx.createLinearGradient(0, 0, 1080, 1080);
+        grad.addColorStop(0, '#f0f9ff'); grad.addColorStop(1, '#bae6fd');
       } else {
-        ctx.fillStyle = "#f8fafc";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = "#94a3b8";
-        ctx.font = "20px sans-serif";
-        ctx.fillText("Bitte Hintergrundbild hochladen", 40, 40);
+        grad = ctx.createLinearGradient(0, 0, 1080, 1080);
+        grad.addColorStop(0, '#ffffff'); grad.addColorStop(1, '#cbd5e1');
       }
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, 1080, 1080);
 
-      // 2. Transparente PNG drüberlegen
+      // Dekorative Weiße Karte
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.65)';
+      ctx.beginPath();
+      ctx.roundRect(50, 80, 480, 920, 24);
+      ctx.fill();
+    }
+
+    // Render-Funktion mit Animations-Fortschritt (progress: 0.0 bis 1.0)
+    function renderAtProgress(progress) {
+      ctx.clearRect(0, 0, 1080, 1080);
+      drawBackground();
+
+      // 1. Produkt zeichnen mit Schatten
       if (fgImg) {
         const scale = parseFloat(inputs.fgScale.value);
         const x = parseInt(inputs.fgX.value);
         const y = parseInt(inputs.fgY.value);
         const w = fgImg.width * scale;
         const h = fgImg.height * scale;
-        
-        // Browser verarbeitet Transparenz automatisch korrekt
+
+        // Schatten
+        ctx.save();
+        ctx.beginPath();
+        ctx.ellipse(x + w / 2, y + h - 20, w * 0.35, 25 * scale, 0, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+        ctx.filter = 'blur(15px)';
+        ctx.fill();
+        ctx.restore();
+
         ctx.drawImage(fgImg, x, y, w, h);
       }
 
-      // 3. Überschrift zeichnen
+      // 2. Überschrift animieren (Reingleiten von oben)
       const hText = inputs.headText.value;
       if (hText) {
+        const headProgress = Math.min(1, progress * 1.5); // Startet sofort
+        const eased = easeOutCubic(headProgress);
+        const targetX = parseInt(inputs.headX.value);
+        const targetY = parseInt(inputs.headY.value);
+        const currentY = targetY - (1 - eased) * 120; // Rutscht 120px von oben rein
+
+        ctx.save();
+        ctx.globalAlpha = eased;
         ctx.font = `bold ${inputs.headSize.value}px sans-serif`;
         ctx.fillStyle = inputs.headColor.value;
-        ctx.fillText(hText, parseInt(inputs.headX.value), parseInt(inputs.headY.value));
+        ctx.fillText(hText, targetX, currentY);
+        ctx.restore();
       }
 
-      // 4. Eigenschaften / Stichpunkte zeichnen
+      // 3. Stichpunkte nacheinander animieren (Reingleiten von links)
       const pText = inputs.propText.value;
       if (pText) {
-        const lines = pText.split('\n');
+        const lines = pText.split('\n').filter(l => l.trim() !== "");
         const fontSize = parseInt(inputs.propSize.value);
-        const startX = parseInt(inputs.propX.value);
+        const targetX = parseInt(inputs.propX.value);
         let startY = parseInt(inputs.propY.value);
-        const lineHeight = fontSize * 1.4;
+        const lineHeight = fontSize * 1.5;
 
-        ctx.font = `${fontSize}px sans-serif`;
+        ctx.font = `500 ${fontSize}px sans-serif`;
         ctx.fillStyle = inputs.propColor.value;
 
-        lines.forEach(line => {
-          if (line.trim() !== "") {
-            ctx.fillText(`• ${line.trim()}`, startX, startY);
-            startY += lineHeight;
+        lines.forEach((line, index) => {
+          // Gestaffelter Start für jede Zeile
+          const delay = 0.2 + (index * 0.15); 
+          const lineProgress = Math.max(0, Math.min(1, (progress - delay) / 0.4));
+          const eased = easeOutCubic(lineProgress);
+
+          if (lineProgress > 0) {
+            const currentX = targetX - (1 - eased) * 150; // Rutscht von links rein
+            ctx.save();
+            ctx.globalAlpha = eased;
+            ctx.fillText(line.trim(), currentX, startY);
+            ctx.restore();
           }
+          startY += lineHeight;
         });
       }
     }
 
-    // Event-Listener für alle Text- und Slider-Eingaben
+    // Animation abspielen
+    function playAnimation(onComplete) {
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
+      startTime = null;
+
+      function step(timestamp) {
+        if (!startTime) startTime = timestamp;
+        const elapsed = timestamp - startTime;
+        const progress = Math.min(1, elapsed / ANIMATION_DURATION);
+
+        renderAtProgress(progress);
+
+        if (progress < 1) {
+          animationFrameId = requestAnimationFrame(step);
+        } else {
+          // Kurz halten
+          setTimeout(() => {
+            if (onComplete) onComplete();
+          }, HOLD_DURATION);
+        }
+      }
+
+      animationFrameId = requestAnimationFrame(step);
+    }
+
+    // Video-Recording über MediaRecorder API
+    function recordVideo() {
+      statusEl.textContent = "⏺ Aufnahme läuft...";
+      document.getElementById('recordBtn').disabled = true;
+
+      const stream = canvas.captureStream(60); // 60 FPS
+      let mimeType = 'video/webm;codecs=vp9';
+      if (!MediaRecorder.isTypeSupported(mimeType)) mimeType = 'video/webm';
+      if (!MediaRecorder.isTypeSupported(mimeType)) mimeType = 'video/mp4';
+
+      const mediaRecorder = new MediaRecorder(stream, { mimeType });
+      const chunks = [];
+
+      mediaRecorder.ondataavailable = e => chunks.push(e.data);
+      mediaRecorder.onstop = () => {
+        const blob = new Blob(chunks, { type: mimeType });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `produkt-animation.${mimeType.includes('mp4') ? 'mp4' : 'webm'}`;
+        a.click();
+        
+        statusEl.textContent = "✅ Video erfolgreich heruntergeladen!";
+        document.getElementById('recordBtn').disabled = false;
+      };
+
+      mediaRecorder.start();
+      playAnimation(() => {
+        mediaRecorder.stop();
+      });
+    }
+
+    // Event Listener
+    document.getElementById('playBtn').addEventListener('click', () => {
+      statusEl.textContent = "▶ Vorschau läuft...";
+      playAnimation(() => { statusEl.textContent = ""; });
+    });
+
+    document.getElementById('recordBtn').addEventListener('click', recordVideo);
+
     Object.keys(inputs).forEach(key => {
-      if (key !== 'bgInput' && key !== 'fgInput') {
-        inputs[key].addEventListener('input', draw);
+      if (key !== 'fgInput') {
+        inputs[key].addEventListener('input', () => renderAtProgress(1.0));
+        inputs[key].addEventListener('change', () => renderAtProgress(1.0));
       }
     });
 
-    // Initiales Zeichnen
-    draw();
-
-    // Download
-    document.getElementById('downloadBtn').addEventListener('click', () => {
-      const link = document.createElement('a');
-      link.download = 'produktbild-final.png';
-      link.href = canvas.toDataURL('image/png');
-      link.click();
-    });
+    // Start-Render
+    renderAtProgress(1.0);
   </script>
 </body>
 </html>
