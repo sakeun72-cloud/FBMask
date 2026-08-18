@@ -662,35 +662,48 @@
         });
       }
 
-      // 7. MOTORRAD & DELIVERY BADGE
+      // 7. MOTORRAD & PROMINENTER DELIVERY BADGE
       const delivStart = 0.62;
       if (progress >= delivStart) {
         const moveProgress = Math.min(1, (progress - delivStart) / 0.28);
         const targetY = parseInt(inputs.delivY.value);
         const currentX = -100 + (135 - -100) * easeOutCubic(moveProgress);
 
-        drawDeliveryScooter(currentX, targetY, 1.35, moveProgress);
+        drawDeliveryScooter(currentX, targetY, 1.4, moveProgress);
 
         if (moveProgress > 0.4) {
           const popProgress = Math.min(1, (moveProgress - 0.4) / 0.6);
           const easedPop = easeOutBack(popProgress);
 
           ctx.save();
-          ctx.translate(currentX + 80, targetY - 18);
+          ctx.translate(currentX + 85, targetY - 22);
           ctx.scale(Math.max(0, easedPop), Math.max(0, easedPop));
 
-          ctx.shadowColor = 'rgba(22, 163, 74, 0.35)'; ctx.shadowBlur = 15; ctx.shadowOffsetY = 6;
+          // Kräftigerer Schatten für mehr Präsenz
+          ctx.shadowColor = 'rgba(22, 163, 74, 0.4)'; 
+          ctx.shadowBlur = 20; 
+          ctx.shadowOffsetY = 8;
+          
           ctx.fillStyle = inputs.delivColor.value;
-          ctx.beginPath(); ctx.roundRect(0, -27, 220, 54, 14); ctx.fill();
+          // Vergrößerte Box (280px breit, 70px hoch)
+          ctx.beginPath(); 
+          ctx.roundRect(0, -35, 280, 70, 16); 
+          ctx.fill();
 
           ctx.shadowColor = 'transparent';
-          ctx.font = 'bold 18px sans-serif'; ctx.fillStyle = '#ffffff';
-          ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
-          ctx.fillText(inputs.delivText.value, 18, -4);
+          
+          // Größerer Haupttext
+          ctx.font = 'bold 22px sans-serif'; 
+          ctx.fillStyle = '#ffffff';
+          ctx.textAlign = 'left'; 
+          ctx.textBaseline = 'alphabetic';
+          ctx.fillText(inputs.delivText.value, 22, -6);
 
+          // Größerer & deutlicherer Untertitel
           if (inputs.delivSubText.value.trim() !== "") {
-            ctx.font = '500 12px sans-serif'; ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
-            ctx.fillText(inputs.delivSubText.value, 18, 15);
+            ctx.font = '600 15px sans-serif'; 
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+            ctx.fillText(inputs.delivSubText.value, 22, 18);
           }
 
           ctx.restore();
