@@ -3,82 +3,153 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bild-Overlay Tool</title>
+  <title>Produktbild & Text Studio</title>
   <style>
-    * { box-sizing: border-box; font-family: sans-serif; }
-    body { max-width: 900px; margin: 2rem auto; padding: 0 1rem; background: #f4f4f9; color: #333; }
-    h1 { text-align: center; }
-    .controls { background: #fff; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 1.5rem; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1rem; }
-    label { display: block; font-weight: bold; margin-bottom: 0.5rem; }
-    input[type="file"], input[type="range"] { width: 100%; }
-    .slider-group { margin-top: 0.5rem; }
-    canvas { max-width: 100%; height: auto; display: block; margin: 0 auto; background: #ddd; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-    .btn { display: block; width: 100%; padding: 0.8rem; background: #0066cc; color: #fff; border: none; border-radius: 4px; font-size: 1rem; cursor: pointer; font-weight: bold; margin-top: 1rem; }
-    .btn:hover { background: #0052a3; }
+    * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { max-width: 1200px; margin: 1.5rem auto; padding: 0 1rem; background: #f1f5f9; color: #0f172a; }
+    h1 { text-align: center; font-size: 1.6rem; margin-bottom: 1.5rem; }
+    
+    .app-layout { display: grid; grid-template-columns: 380px 1fr; gap: 1.5rem; align-items: start; }
+    @media (max-width: 850px) { .app-layout { grid-template-columns: 1fr; } }
+    
+    .controls { background: #ffffff; padding: 1.25rem; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); max-height: 88vh; overflow-y: auto; }
+    .preview { background: #ffffff; padding: 1.25rem; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); text-align: center; }
+    
+    .section-head { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #2563eb; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.25rem; margin: 1.2rem 0 0.8rem 0; }
+    .section-head:first-of-type { margin-top: 0; }
+    
+    .field { margin-bottom: 0.75rem; }
+    label { display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 0.25rem; }
+    input[type="text"], textarea, input[type="file"], select { width: 100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.85rem; }
+    textarea { resize: vertical; height: 60px; }
+    
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem; }
+    
+    canvas { max-width: 100%; height: auto; border-radius: 8px; border: 1px solid #cbd5e1; background: #e2e8f0; }
+    
+    .btn { display: block; width: 100%; padding: 0.8rem; background: #2563eb; color: #ffffff; border: none; border-radius: 6px; font-size: 0.95rem; font-weight: 600; cursor: pointer; margin-top: 1rem; }
+    .btn:hover { background: #1d4ed8; }
   </style>
 </head>
 <body>
 
-  <h1>PNG-Overlay Editor</h1>
+  <h1>Produktbild & Infografik Generator</h1>
 
-  <div class="controls">
-    <div class="grid">
-      <div>
-        <label for="bgInput">1. Hintergrundbild (JPG/PNG)</label>
+  <div class="app-layout">
+    
+    <!-- STEUERUNG -->
+    <div class="controls">
+      
+      <div class="section-head">1. Bilder</div>
+      <div class="field">
+        <label>Hintergrundbild</label>
         <input type="file" id="bgInput" accept="image/*">
       </div>
-      <div>
-        <label for="fgInput">2. Vordergrund (Transpar. PNG)</label>
+      <div class="field">
+        <label>Produkt / Overlay (PNG)</label>
         <input type="file" id="fgInput" accept="image/png, image/webp">
       </div>
+      
+      <div class="section-head">2. Produkt-Positioning</div>
+      <div class="grid-3">
+        <div class="field">
+          <label>Größe</label>
+          <input type="range" id="fgScale" min="0.1" max="2" step="0.05" value="0.8">
+        </div>
+        <div class="field">
+          <label>Pos X</label>
+          <input type="range" id="fgX" min="-500" max="500" value="50">
+        </div>
+        <div class="field">
+          <label>Pos Y</label>
+          <input type="range" id="fgY" min="-500" max="500" value="50">
+        </div>
+      </div>
+
+      <div class="section-head">3. Überschrift</div>
+      <div class="field">
+        <label>Titel-Text</label>
+        <input type="text" id="headText" value="Perfekter Jasmine Reis 25kg">
+      </div>
+      <div class="grid-2">
+        <div class="field">
+          <label>Größe (px)</label>
+          <input type="number" id="headSize" value="42">
+        </div>
+        <div class="field">
+          <label>Farbe</label>
+          <input type="color" id="headColor" value="#1e293b">
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="field">
+          <label>Text Pos X</label>
+          <input type="number" id="headX" value="40">
+        </div>
+        <div class="field">
+          <label>Text Pos Y</label>
+          <input type="number" id="headY" value="80">
+        </div>
+      </div>
+
+      <div class="section-head">4. Eigenschaften & Stichpunkte</div>
+      <div class="field">
+        <label>Eigenschaften (Eine pro Zeile)</label>
+        <textarea id="propText">100% Premium Qualität&#10;Ideal für Asiatische Gerichte&#10;Extra langer Duftreis&#10;Großpackung 25kg</textarea>
+      </div>
+      <div class="grid-2">
+        <div class="field">
+          <label>Größe (px)</label>
+          <input type="number" id="propSize" value="24">
+        </div>
+        <div class="field">
+          <label>Farbe</label>
+          <input type="color" id="propColor" value="#334155">
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="field">
+          <label>Liste Pos X</label>
+          <input type="number" id="propX" value="40">
+        </div>
+        <div class="field">
+          <label>Liste Pos Y</label>
+          <input type="number" id="propY" value="150">
+        </div>
+      </div>
+
+      <button class="btn" id="downloadBtn">Bild herunterladen</button>
     </div>
 
-    <hr>
-
-    <div class="grid">
-      <div class="slider-group">
-        <label>Skalierung: <span id="scaleVal">100%</span></label>
-        <input type="range" id="scale" min="0.1" max="2" step="0.05" value="1">
-      </div>
-      <div class="slider-group">
-        <label>Position X: <span id="posXVal">0px</span></label>
-        <input type="range" id="posX" min="-500" max="500" value="0">
-      </div>
-      <div class="slider-group">
-        <label>Position Y: <span id="posYVal">0px</span></label>
-        <input type="range" id="posY" min="-500" max="500" value="0">
-      </div>
+    <!-- VORSCHAU CANVAS -->
+    <div class="preview">
+      <canvas id="mainCanvas" width="800" height="800"></canvas>
     </div>
 
-    <button class="btn" id="downloadBtn">Fertiges Bild herunterladen</button>
   </div>
 
-  <canvas id="editorCanvas"></canvas>
-
   <script>
-    const bgInput = document.getElementById('bgInput');
-    const fgInput = document.getElementById('fgInput');
-    const canvas = document.getElementById('editorCanvas');
+    const canvas = document.getElementById('mainCanvas');
     const ctx = canvas.getContext('2d');
-
-    const scaleInput = document.getElementById('scale');
-    const posXInput = document.getElementById('posX');
-    const posYInput = document.getElementById('posY');
-
-    const scaleVal = document.getElementById('scaleVal');
-    const posXVal = document.getElementById('posXVal');
-    const posYVal = document.getElementById('posYVal');
-    const downloadBtn = document.getElementById('downloadBtn');
 
     let bgImg = null;
     let fgImg = null;
 
-    // Bild aus Datei-Input laden
-    function loadImage(fileInput, callback) {
+    // Alle Steuerelemente erfassen
+    const inputs = [
+      'bgInput', 'fgInput', 'fgScale', 'fgX', 'fgY',
+      'headText', 'headSize', 'headColor', 'headX', 'headY',
+      'propText', 'propSize', 'propColor', 'propX', 'propY'
+    ].reduce((acc, id) => {
+      acc[id] = document.getElementById(id);
+      return acc;
+    }, {});
+
+    // Bild-Upload Handler
+    function handleFileSelect(fileInput, callback) {
       const file = fileInput.files[0];
       if (!file) return;
-
       const reader = new FileReader();
       reader.onload = (e) => {
         const img = new Image();
@@ -88,72 +159,97 @@
       reader.readAsDataURL(file);
     }
 
-    // Canvas rendern
-    function draw() {
-      if (!bgImg) return;
-
-      // Canvas auf Arbeitsgröße des Hintergrundbilds setzen
-      canvas.width = bgImg.width;
-      canvas.height = bgImg.height;
-
-      // Regler-Reichweiten dynamisch an die Bildgröße anpassen
-      posXInput.min = -bgImg.width;
-      posXInput.max = bgImg.width;
-      posYInput.min = -bgImg.height;
-      posYInput.max = bgImg.height;
-
-      // Clear Canvas
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      // 1. Hintergrund zeichnen
-      ctx.drawImage(bgImg, 0, 0);
-
-      // 2. Transparente PNG drüberlegen (Browser verarbeitet Alpha-Kanal automatisch)
-      if (fgImg) {
-        const scale = parseFloat(scaleInput.value);
-        const x = parseInt(posXInput.value);
-        const y = parseInt(posYInput.value);
-
-        const w = fgImg.width * scale;
-        const h = fgImg.height * scale;
-
-        ctx.drawImage(fgImg, x, y, w, h);
-      }
-    }
-
-    // Event Listener für Bild-Uploads
-    bgInput.addEventListener('change', () => {
-      loadImage(bgInput, (img) => {
+    inputs.bgInput.addEventListener('change', () => {
+      handleFileSelect(inputs.bgInput, (img) => {
         bgImg = img;
+        canvas.width = img.width;
+        canvas.height = img.height;
+        
+        // Slider an Bildgröße anpassen
+        inputs.fgX.min = -img.width; inputs.fgX.max = img.width;
+        inputs.fgY.min = -img.height; inputs.fgY.max = img.height;
         draw();
       });
     });
 
-    fgInput.addEventListener('change', () => {
-      loadImage(fgInput, (img) => {
+    inputs.fgInput.addEventListener('change', () => {
+      handleFileSelect(inputs.fgInput, (img) => {
         fgImg = img;
         draw();
       });
     });
 
-    // Event Listener für Regler
-    [scaleInput, posXInput, posYInput].forEach(input => {
-      input.addEventListener('input', () => {
-        scaleVal.textContent = `${Math.round(scaleInput.value * 100)}%`;
-        posXVal.textContent = `${posXInput.value}px`;
-        posYVal.textContent = `${posYInput.value}px`;
-        draw();
-      });
+    // Haupt-Zeichenfunktion
+    function draw() {
+      // Canvas zurücksetzen
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // 1. Hintergrund zeichnen (falls hochgeladen, sonst Platzhalter)
+      if (bgImg) {
+        ctx.drawImage(bgImg, 0, 0);
+      } else {
+        ctx.fillStyle = "#f8fafc";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "#94a3b8";
+        ctx.font = "20px sans-serif";
+        ctx.fillText("Bitte Hintergrundbild hochladen", 40, 40);
+      }
+
+      // 2. Transparente PNG drüberlegen
+      if (fgImg) {
+        const scale = parseFloat(inputs.fgScale.value);
+        const x = parseInt(inputs.fgX.value);
+        const y = parseInt(inputs.fgY.value);
+        const w = fgImg.width * scale;
+        const h = fgImg.height * scale;
+        
+        // Browser verarbeitet Transparenz automatisch korrekt
+        ctx.drawImage(fgImg, x, y, w, h);
+      }
+
+      // 3. Überschrift zeichnen
+      const hText = inputs.headText.value;
+      if (hText) {
+        ctx.font = `bold ${inputs.headSize.value}px sans-serif`;
+        ctx.fillStyle = inputs.headColor.value;
+        ctx.fillText(hText, parseInt(inputs.headX.value), parseInt(inputs.headY.value));
+      }
+
+      // 4. Eigenschaften / Stichpunkte zeichnen
+      const pText = inputs.propText.value;
+      if (pText) {
+        const lines = pText.split('\n');
+        const fontSize = parseInt(inputs.propSize.value);
+        const startX = parseInt(inputs.propX.value);
+        let startY = parseInt(inputs.propY.value);
+        const lineHeight = fontSize * 1.4;
+
+        ctx.font = `${fontSize}px sans-serif`;
+        ctx.fillStyle = inputs.propColor.value;
+
+        lines.forEach(line => {
+          if (line.trim() !== "") {
+            ctx.fillText(`• ${line.trim()}`, startX, startY);
+            startY += lineHeight;
+          }
+        });
+      }
+    }
+
+    // Event-Listener für alle Text- und Slider-Eingaben
+    Object.keys(inputs).forEach(key => {
+      if (key !== 'bgInput' && key !== 'fgInput') {
+        inputs[key].addEventListener('input', draw);
+      }
     });
 
-    // Download-Funktion
-    downloadBtn.addEventListener('click', () => {
-      if (!bgImg) {
-        alert('Bitte lade zuerst ein Hintergrundbild hoch.');
-        return;
-      }
+    // Initiales Zeichnen
+    draw();
+
+    // Download
+    document.getElementById('downloadBtn').addEventListener('click', () => {
       const link = document.createElement('a');
-      link.download = 'overlay-ergebnis.png';
+      link.download = 'produktbild-final.png';
       link.href = canvas.toDataURL('image/png');
       link.click();
     });
